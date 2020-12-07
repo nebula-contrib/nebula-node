@@ -5,9 +5,13 @@ name: Test
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - 'v[0-9]+.*'
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - 'v[0-9]+.*'
 
 jobs:
   ci-test:
