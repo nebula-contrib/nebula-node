@@ -3,7 +3,7 @@
 //
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
-//var thrift = require('thrift');
+
 var thrift = require('thrift');
 var Thrift = thrift.Thrift;
 var ttypes = require('./common_types');
@@ -24,7 +24,7 @@ nebula.graph.ErrorCode = {
 'E_SESSION_TIMEOUT' : -6,
 'E_SYNTAX_ERROR' : -7,
 'E_EXECUTION_ERROR' : -8,
-'E_STATEMENT_EMTPY' : -9,
+'E_STATEMENT_EMPTY' : -9,
 'E_USER_NOT_FOUND' : -10,
 'E_BAD_PERMISSION' : -11,
 'E_SEMANTIC_ERROR' : -12
@@ -65,21 +65,21 @@ nebula.graph.ProfilingStats.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.I64) {
-        this.rows = input.readI64().value;
+        this.rows = input.readI64();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.I64) {
-        this.exec_duration_in_us = input.readI64().value;
+        this.exec_duration_in_us = input.readI64();
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
       if (ftype == Thrift.Type.I64) {
-        this.total_duration_in_us = input.readI64().value;
+        this.total_duration_in_us = input.readI64();
       } else {
         input.skip(ftype);
       }
@@ -104,8 +104,8 @@ nebula.graph.ProfilingStats.prototype.read = function(input) {
           }
           var key6 = null;
           var val7 = null;
-          key6 = input.readString().value;
-          val7 = input.readString().value;
+          key6 = input.readString();
+          val7 = input.readString();
           this.other_stats[key6] = val7;
         }
         input.readMapEnd();
@@ -187,14 +187,14 @@ nebula.graph.PlanNodeBranchInfo.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.BOOL) {
-        this.is_do_branch = input.readBool().value;
+        this.is_do_branch = input.readBool();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.I64) {
-        this.condition_node_id = input.readI64().value;
+        this.condition_node_id = input.readI64();
       } else {
         input.skip(ftype);
       }
@@ -233,7 +233,7 @@ nebula.graph.Pair = function(args) {
       this.key = args.key;
     }
     if (args.value !== undefined) {
-      this.value = args.value;
+      this.value = args;
     }
   }
 };
@@ -253,14 +253,14 @@ nebula.graph.Pair.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.key = input.readString().value;
+        this.key = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.value = input.readString().value;
+        this.value = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -339,21 +339,21 @@ nebula.graph.PlanNodeDescription.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.name = input.readString().value;
+        this.name = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.I64) {
-        this.id = input.readI64().value;
+        this.id = input.readI64();
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
       if (ftype == Thrift.Type.STRING) {
-        this.output_var = input.readString().value;
+        this.output_var = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -420,7 +420,7 @@ nebula.graph.PlanNodeDescription.prototype.read = function(input) {
         for (var _i29 = 0; _i29 < _size24; ++_i29)
         {
           var elem30 = null;
-          elem30 = input.readI64().value;
+          elem30 = input.readI64();
           this.dependencies.push(elem30);
         }
         input.readListEnd();
@@ -577,8 +577,8 @@ nebula.graph.PlanDescription.prototype.read = function(input) {
           }
           var key47 = null;
           var val48 = null;
-          key47 = input.readI64().value;
-          val48 = input.readI64().value;
+          key47 = input.readI64();
+          val48 = input.readI64();
           this.node_index_map[key47] = val48;
         }
         input.readMapEnd();
@@ -588,7 +588,7 @@ nebula.graph.PlanDescription.prototype.read = function(input) {
       break;
       case 3:
       if (ftype == Thrift.Type.STRING) {
-        this.format = input.readString().value;
+        this.format = input.readString();
       } else {
         input.skip(ftype);
       }
