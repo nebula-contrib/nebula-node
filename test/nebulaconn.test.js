@@ -11,7 +11,7 @@ const expect = require('chai').expect
 
 describe('#nebula connection', () => {
     it('test open succeeded', () => {
-        var conn = new NebulaConn('localhost', 3699, 1000)
+        var conn = new NebulaConn('localhost', 9669, 1000)
         try {
             conn.open()
             conn.close()
@@ -22,7 +22,7 @@ describe('#nebula connection', () => {
     })
 
     it('test authenticate', (done) => {
-        var conn = new NebulaConn('localhost', 3699, 1000)
+        var conn = new NebulaConn('localhost', 9669, 1000)
         try {
             conn.open()
             conn.authenticate('root', 'nebula', function (response) {
@@ -40,7 +40,7 @@ describe('#nebula connection', () => {
     })
 
     it('test execute', (done) => {
-        var conn = new NebulaConn('localhost', 3699, 1000)
+        var conn = new NebulaConn('localhost', 9669, 1000)
         try {
             conn.open()
             conn.authenticate('root', 'nebula', function (response) {

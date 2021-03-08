@@ -509,7 +509,7 @@ nebula.Value.prototype.read = function(input) {
       break;
       case 12:
       if (ftype == Thrift.Type.STRUCT) {
-        this.lVal = new nebula.List();
+        this.lVal = new nebula.NList();
         this.lVal.read(input);
       } else {
         input.skip(ftype);
@@ -517,7 +517,7 @@ nebula.Value.prototype.read = function(input) {
       break;
       case 13:
       if (ftype == Thrift.Type.STRUCT) {
-        this.mVal = new nebula.Map();
+        this.mVal = new nebula.NMap();
         this.mVal.read(input);
       } else {
         input.skip(ftype);
@@ -525,7 +525,7 @@ nebula.Value.prototype.read = function(input) {
       break;
       case 14:
       if (ftype == Thrift.Type.STRUCT) {
-        this.uVal = new nebula.Set();
+        this.uVal = new nebula.NSet();
         this.uVal.read(input);
       } else {
         input.skip(ftype);
@@ -630,7 +630,7 @@ nebula.Value.prototype.write = function(output) {
   return;
 };
 
-nebula.List = function(args) {
+nebula.NList = function(args) {
   this.values = null;
   if (args) {
     if (args.values !== undefined) {
@@ -638,8 +638,8 @@ nebula.List = function(args) {
     }
   }
 };
-nebula.List.prototype = {};
-nebula.List.prototype.read = function(input) {
+nebula.NList.prototype = {};
+nebula.NList.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -685,8 +685,8 @@ nebula.List.prototype.read = function(input) {
   return;
 };
 
-nebula.List.prototype.write = function(output) {
-  output.writeStructBegin('List');
+nebula.NList.prototype.write = function(output) {
+  output.writeStructBegin('NList');
   if (this.values !== null && this.values !== undefined) {
     output.writeFieldBegin('values', Thrift.Type.LIST, 1);
     output.writeListBegin(Thrift.Type.STRUCT, this.values.length);
@@ -706,7 +706,7 @@ nebula.List.prototype.write = function(output) {
   return;
 };
 
-nebula.Map = function(args) {
+nebula.NMap = function(args) {
   this.kvs = null;
   if (args) {
     if (args.kvs !== undefined) {
@@ -714,8 +714,8 @@ nebula.Map = function(args) {
     }
   }
 };
-nebula.Map.prototype = {};
-nebula.Map.prototype.read = function(input) {
+nebula.NMap.prototype = {};
+nebula.NMap.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -741,11 +741,6 @@ nebula.Map.prototype.read = function(input) {
         _size8 = _rtmp312.size;
         for (var _i13 = 0; _i13 < _size8; ++_i13)
         {
-          if (_i13 > 0 ) {
-            if (input.rstack.length > input.rpos[input.rpos.length -1] + 1) {
-              input.rstack.pop();
-            }
-          }
           var key14 = null;
           var val15 = null;
           key14 = input.readString();
@@ -770,8 +765,8 @@ nebula.Map.prototype.read = function(input) {
   return;
 };
 
-nebula.Map.prototype.write = function(output) {
-  output.writeStructBegin('Map');
+nebula.NMap.prototype.write = function(output) {
+  output.writeStructBegin('NMap');
   if (this.kvs !== null && this.kvs !== undefined) {
     output.writeFieldBegin('kvs', Thrift.Type.MAP, 1);
     output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRUCT, Thrift.objectLength(this.kvs));
@@ -792,7 +787,7 @@ nebula.Map.prototype.write = function(output) {
   return;
 };
 
-nebula.Set = function(args) {
+nebula.NSet = function(args) {
   this.values = null;
   if (args) {
     if (args.values !== undefined) {
@@ -800,8 +795,8 @@ nebula.Set = function(args) {
     }
   }
 };
-nebula.Set.prototype = {};
-nebula.Set.prototype.read = function(input) {
+nebula.NSet.prototype = {};
+nebula.NSet.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -847,8 +842,8 @@ nebula.Set.prototype.read = function(input) {
   return;
 };
 
-nebula.Set.prototype.write = function(output) {
-  output.writeStructBegin('Set');
+nebula.NSet.prototype.write = function(output) {
+  output.writeStructBegin('NSet');
   if (this.values !== null && this.values !== undefined) {
     output.writeFieldBegin('values', Thrift.Type.SET, 1);
     output.writeSetBegin(Thrift.Type.STRUCT, this.values.length);
@@ -1101,11 +1096,6 @@ nebula.Tag.prototype.read = function(input) {
         _size50 = _rtmp354.size;
         for (var _i55 = 0; _i55 < _size50; ++_i55)
         {
-          if (_i55 > 0 ) {
-            if (input.rstack.length > input.rpos[input.rpos.length -1] + 1) {
-              input.rstack.pop();
-            }
-          }
           var key56 = null;
           var val57 = null;
           key56 = input.readString();
@@ -1181,8 +1171,9 @@ nebula.Vertex.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.vid = input.readString();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.vid = new nebula.Value();
+        this.vid.read(input);
       } else {
         input.skip(ftype);
       }
@@ -1220,8 +1211,8 @@ nebula.Vertex.prototype.read = function(input) {
 nebula.Vertex.prototype.write = function(output) {
   output.writeStructBegin('Vertex');
   if (this.vid !== null && this.vid !== undefined) {
-    output.writeFieldBegin('vid', Thrift.Type.STRING, 1);
-    output.writeString(this.vid);
+    output.writeFieldBegin('vid', Thrift.Type.STRUCT, 1);
+    this.vid.write(output);
     output.writeFieldEnd();
   }
   if (this.tags !== null && this.tags !== undefined) {
@@ -1286,15 +1277,17 @@ nebula.Edge.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.src = input.readString();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.src = new nebula.Value();
+        this.src.read(input);
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.dst = input.readString();
+      if (ftype == Thrift.Type.STRUCT) {
+        this.dst = new nebula.Value();
+        this.dst.read(input);
       } else {
         input.skip(ftype);
       }
@@ -1333,11 +1326,6 @@ nebula.Edge.prototype.read = function(input) {
         _size68 = _rtmp372.size;
         for (var _i73 = 0; _i73 < _size68; ++_i73)
         {
-          if (_i73 > 0 ) {
-            if (input.rstack.length > input.rpos[input.rpos.length -1] + 1) {
-              input.rstack.pop();
-            }
-          }
           var key74 = null;
           var val75 = null;
           key74 = input.readString();
@@ -1362,13 +1350,13 @@ nebula.Edge.prototype.read = function(input) {
 nebula.Edge.prototype.write = function(output) {
   output.writeStructBegin('Edge');
   if (this.src !== null && this.src !== undefined) {
-    output.writeFieldBegin('src', Thrift.Type.STRING, 1);
-    output.writeString(this.src);
+    output.writeFieldBegin('src', Thrift.Type.STRUCT, 1);
+    this.src.write(output);
     output.writeFieldEnd();
   }
   if (this.dst !== null && this.dst !== undefined) {
-    output.writeFieldBegin('dst', Thrift.Type.STRING, 2);
-    output.writeString(this.dst);
+    output.writeFieldBegin('dst', Thrift.Type.STRUCT, 2);
+    this.dst.write(output);
     output.writeFieldEnd();
   }
   if (this.type !== null && this.type !== undefined) {
@@ -1486,11 +1474,6 @@ nebula.Step.prototype.read = function(input) {
         _size78 = _rtmp382.size;
         for (var _i83 = 0; _i83 < _size78; ++_i83)
         {
-          if (_i83 > 0 ) {
-            if (input.rstack.length > input.rpos[input.rpos.length -1] + 1) {
-              input.rstack.pop();
-            }
-          }
           var key84 = null;
           var val85 = null;
           key84 = input.readString();
@@ -1769,6 +1752,153 @@ nebula.KeyValue.prototype.write = function(output) {
   if (this.value !== null && this.value !== undefined) {
     output.writeFieldBegin('value', Thrift.Type.STRING, 2);
     output.writeString(this.value);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+nebula.LogInfo = function(args) {
+  this.log_id = null;
+  this.term_id = null;
+  if (args) {
+    if (args.log_id !== undefined) {
+      this.log_id = args.log_id;
+    }
+    if (args.term_id !== undefined) {
+      this.term_id = args.term_id;
+    }
+  }
+};
+nebula.LogInfo.prototype = {};
+nebula.LogInfo.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.log_id = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I64) {
+        this.term_id = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+nebula.LogInfo.prototype.write = function(output) {
+  output.writeStructBegin('LogInfo');
+  if (this.log_id !== null && this.log_id !== undefined) {
+    output.writeFieldBegin('log_id', Thrift.Type.I64, 1);
+    output.writeI64(this.log_id);
+    output.writeFieldEnd();
+  }
+  if (this.term_id !== null && this.term_id !== undefined) {
+    output.writeFieldBegin('term_id', Thrift.Type.I64, 2);
+    output.writeI64(this.term_id);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+nebula.PartitionBackupInfo = function(args) {
+  this.info = null;
+  if (args) {
+    if (args.info !== undefined) {
+      this.info = args.info;
+    }
+  }
+};
+nebula.PartitionBackupInfo.prototype = {};
+nebula.PartitionBackupInfo.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.MAP) {
+        var _size96 = 0;
+        var _rtmp3100;
+        this.info = {};
+        var _ktype97 = 0;
+        var _vtype98 = 0;
+        _rtmp3100 = input.readMapBegin();
+        _ktype97 = _rtmp3100.ktype;
+        _vtype98 = _rtmp3100.vtype;
+        _size96 = _rtmp3100.size;
+        for (var _i101 = 0; _i101 < _size96; ++_i101)
+        {
+          var key102 = null;
+          var val103 = null;
+          key102 = input.readI32().value;
+          val103 = new nebula.LogInfo();
+          val103.read(input);
+          this.info[key102] = val103;
+        }
+        input.readMapEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+nebula.PartitionBackupInfo.prototype.write = function(output) {
+  output.writeStructBegin('PartitionBackupInfo');
+  if (this.info !== null && this.info !== undefined) {
+    output.writeFieldBegin('info', Thrift.Type.MAP, 1);
+    output.writeMapBegin(Thrift.Type.I32, Thrift.Type.STRUCT, Thrift.objectLength(this.info));
+    for (var kiter104 in this.info)
+    {
+      if (this.info.hasOwnProperty(kiter104))
+      {
+        var viter105 = this.info[kiter104];
+        output.writeI32(kiter104);
+        viter105.write(output);
+      }
+    }
+    output.writeMapEnd();
     output.writeFieldEnd();
   }
   output.writeFieldStop();

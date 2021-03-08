@@ -27,7 +27,8 @@ nebula.graph.ErrorCode = {
 'E_STATEMENT_EMPTY' : -9,
 'E_USER_NOT_FOUND' : -10,
 'E_BAD_PERMISSION' : -11,
-'E_SEMANTIC_ERROR' : -12
+'E_SEMANTIC_ERROR' : -12,
+'E_TOO_MANY_CONNECTIONS' : -13
 };
 nebula.graph.ProfilingStats = function(args) {
   this.rows = null;
