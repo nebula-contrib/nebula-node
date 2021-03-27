@@ -1,12 +1,6 @@
 # nebula-nodejs
 
-This repository provides Nebula client API in Nodejs.
-
-## Download nebula-nodejs
-
-```bash
-npm install nebula-nodejs
-```
+This repository provides Nebula client API in Nodejs and works with Nebula Graph v2.0. 
 
 ## Usage examples
 
