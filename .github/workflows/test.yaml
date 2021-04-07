@@ -37,7 +37,6 @@ jobs:
         sleep 10
         popd
         popd
-        cd node
         npm install
         npm run build --if-present
         npm test
