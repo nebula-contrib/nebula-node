@@ -2,7 +2,7 @@
 
 Nebula NodeJS is a client package with NodeJS API for Nebula Graph.
 
-It is used to connect users' node project with Nebula Graph 2.0.
+It is used to connect with Nebula Graph 2.0 from user's node project.
 
 \<package-name>: nebula-client
 
@@ -53,10 +53,10 @@ pool = init(configs);
 // Asynchronous methods are encapsulated with Promise mechanism
 pool.getSession('root', 'nebula')
     .then(function(session) {
-        session.execute(<stmt>)
+        session.execute(<stmt>);
         .then(function() {
-            session.release()
-            pool.close()
+            session.release();
+            pool.close();
         }
     }
 ```
