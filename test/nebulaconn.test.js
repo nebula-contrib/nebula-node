@@ -5,7 +5,7 @@
  */
 
 var GraphTtypes = require('../nebula/interface/graph_types');
-var NebulaConn = require("../nebula/net/NebulaConn").NebulaConn
+var NebulaConn = require("../nebula/net/Connection").Connection
 const assert = require('assert');
 const expect = require('chai').expect
 
@@ -47,9 +47,14 @@ describe('#nebula connection', () => {
                 assert(response.success.error_code == 0)
                 assert(response.success.session_id != 0)
                 sessionId = response.success.session_id
+                console.log(response)
                 conn.execute(sessionId, 'CREATE SPACE IF NOT EXISTS test', function (response) {
                     assert(response.success.error_code == 0)
+                    console.log(response)
+                    console.log(response.success.data)
                     conn.execute(sessionId, 'DESC SPACE test', function (response) {
+                        console.log(response)
+                        console.log(response.success.data.rows[0])
                         assert(response.success.error_code == 0)
                         expect(response.success.data.column_names[0]).to.equal('ID')
                         expect(response.success.data.column_names[1]).to.equal('Name')

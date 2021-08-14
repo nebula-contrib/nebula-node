@@ -8,7 +8,7 @@ var thrift = require('thrift');
 var GraphService = require('../interface/GraphService');
 
 
-var NebulaConn = exports.NebulaConn = function (host, port, timeout) {
+var Connection = exports.Connection = function (host, port, timeout) {
     this.host = host
     this.port = port
     this.timeout = timeout
@@ -16,9 +16,9 @@ var NebulaConn = exports.NebulaConn = function (host, port, timeout) {
     this.connection = null
 }
 
-NebulaConn.prototype.prototype = {};
+Connection.prototype.prototype = {};
 
-NebulaConn.prototype.open = function () {
+Connection.prototype.open = function () {
     this.socket = thrift.createConnection(this.host, this.port, {
         connect_timeout : this.timeout,
         timeout : this.timeout,
@@ -26,19 +26,19 @@ NebulaConn.prototype.open = function () {
     this.connection = thrift.createClient(GraphService, this.socket);
 }
 
-NebulaConn.prototype.authenticate = function (userName, password, callback) {
+Connection.prototype.authenticate = function (userName, password, callback) {
     this.connection.authenticate(userName, password, callback);
 }
 
-NebulaConn.prototype.execute = function (sessionId, stmt, callback) {
+Connection.prototype.execute = function (sessionId, stmt, callback) {
     this.connection.execute(sessionId, stmt, callback);
 }
 
-NebulaConn.prototype.signout = function (sessionId) {
+Connection.prototype.signout = function (sessionId) {
     this.connection.signout(sessionId);
 }
 
-NebulaConn.prototype.close = function () {
+Connection.prototype.close = function () {
     if (typeof this.socket != 'undefined') {
         this.socket.end();
     }
