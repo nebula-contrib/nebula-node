@@ -8,12 +8,13 @@ var thrift = require('thrift');
 var GraphService = require('../interface/GraphService');
 
 
-var Connection = exports.Connection = function (host, port, timeout) {
-    this.host = host
-    this.port = port
-    this.timeout = timeout
-    this.socket = null
-    this.connection = null
+var Connection = exports.Connection = function (host, port, timeout, sttime) {
+    this.sttime = sttime;
+    this.host = host;
+    this.port = port;
+    this.timeout = timeout;
+    this.status = 'working';    // enum: {'working', 'free', 'failed'}
+    this.connection = null;
 }
 
 Connection.prototype.prototype = {};
