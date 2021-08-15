@@ -1,6 +1,6 @@
 var Session = require("./Session").NebulaSession;
 
-var SessionManage = exports.SessionManage = function(expireInterval, cleanupInterval) {
+var SessionManager = exports.SessionManager = function(expireInterval, cleanupInterval) {
     this.expireInterval = expireInterval || 100;
     this.cleanupInterval = cleanupInterval || 1000;
     this.sessions = {};
@@ -8,10 +8,10 @@ var SessionManage = exports.SessionManage = function(expireInterval, cleanupInte
 }
 
 var init = function(expireInterval, cleanupInterval) {
-    return new SessionManage(expireInterval, cleanupInterval);
+    return new SessionManager(expireInterval, cleanupInterval);
 }
 
-SessionManage.prototype.cleanup = function(sessions) {
+SessionManager.prototype.cleanup = function(sessions) {
     var curTime = new Date().getTime;
     for (var id in sessions) {
         var session = sessions[id];

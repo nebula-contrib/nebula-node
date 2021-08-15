@@ -39,7 +39,6 @@ NebulaSession.prototype.setSessionTimezone = function(timezone) {
 // execute when a session is closed and take the connection back to the pool
 NebulaSession.prototype.release = function() {
     this.status = "released";
-    console.log(eventEmitter.eventNames());
     eventEmitter.emit("release", this.userName);
 }
 

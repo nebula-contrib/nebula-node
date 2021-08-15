@@ -32,23 +32,30 @@ sudo {NebulaGraph PATH}/scripts/nebula.service status all
 var NebulaClient = require(<package-name>);
 ```
 
-### 2. Make global configuration of connection pool and graphd info.
+### 2. Create global event emitter.
+```javascript
+var eventEmitter = NebulaClient.eventEmitter;
+```
+
+### 3. Make global configuration of connection pool and graphd info.
 ```javascript
 var configs = new NebulaClient.Configs;
 configs.setTimeout(timeout);                    // int timeout: seconds
 configs.setIdleTime(idleTime);                  // int idleTime: seconds
 configs.setMaxConnectionPoolSize(maxPoolSize);  // int maxPoolSize > 0
 configs.setMinConnectionPoolSize(minPoolSize);  // int minPoolSize > 0
-configs.setAddresses(Address);  // List Address: [{'ip': (str)hostip; 'port': (int)portid}, {}, ...]
+configs.setAddresses(Address);  // List Address: [{'host': (str)host/ip, 'port': (int)portid}, {}, ...]
+configs.addAddress(host, port);
+configs.delAddress(host, port);
 ```
 
-### 3. Create connection pool.
+### 4. Create connection pool.
 ```javascript
 var pool = new NebulaClient.NebulaConnPool;
 pool = init(configs);
 ```
 
-### 4. Get session from connection pool. Interact with Nebula Graph service with session.
+### 5. Get session from connection pool. Interact with Nebula Graph service with session.
 ```javascript
 // Asynchronous methods are encapsulated with Promise mechanism
 pool.getSession('root', 'nebula')
@@ -59,4 +66,28 @@ pool.getSession('root', 'nebula')
             pool.close();
         }
     }
+```
+
+## Framework
+```
+.
+├── nebula-node
+│   ├── config.js						
+│   ├── events.js						
+│   ├── index.js
+│   ├── interface                       // underlying DBMS API
+│   │   ├── common_types.js             // common data type in database
+│   │   ├── GraphService.js             // encapsulate interaction with DBMS
+│   │   └── graph_types.js              // graph-featured data structure in database
+│   └── net
+│       ├── Connection.js               // encapsulate thrift API
+│       ├── NebulaConnPool.js           // user interface, load balancer
+│       ├── Session.js                  // user interface
+│       └── SessionManager.js			
+├── test
+│   ├── nebulaconn.test.js
+│   └── nebulasession.test.js
+├── package.json
+├── package-lock.json
+└── README.md
 ```

@@ -19,11 +19,11 @@
     "mocha": "^8.1.3"
   },
   "dependencies": {
-    "thrift": "^0.9.3",
     "browser-or-node": "^1.3.0",
     "chai": "^4.2.0",
     "isomorphic-ws": "^4.0.1",
     "q": "^1.5.1",
-    "ws": "^7.3.1"
+    "thrift": "^0.14.2",
+    "ws": "^7.5.3"
   }
 }

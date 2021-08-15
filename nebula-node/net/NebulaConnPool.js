@@ -13,21 +13,28 @@ const assert = require("assert");
 var NebulaConnPool = exports.NebulaConnPool = function() {
     this.connections = {};
     this.sessions = {};
+    this.addresses = new Array();
 }
 
 NebulaConnPool.prototype.prototype = {};
 
-NebulaConnPool.prototype.init = function(addresses, configs) {
-    this.addresses = addresses;
+NebulaConnPool.prototype.init = function(configs) {
+    this.addresses = configs.addresses;
     this.configs = configs;
 
+    var that = this;
+
     eventEmitter.on("release", function(userName) {
-        for (var key in this.sessions) {
-            if (this.sessions.key.userName == userName) {
-                delete this.sessions.key;
-                console.log("Session" + key + "Released!");
+        for (var key in that.sessions) {
+            if (key === userName) {
+                delete that.sessions[key];
+                console.log("Session of the user " + key + " released!");
             }
         }
+    });
+
+    eventEmitter.on('delAddress', function(delIndex) {
+        that.addresses.splice(delIndex, 1);
     });
 }
 
@@ -67,7 +74,8 @@ NebulaConnPool.prototype.getSession = function(userName, password, retryConnect=
             }
         }
         var newSession = new NebulaSession();
-        var newConn = this.startConn('localhost', 9669, this.configs.timeout, function(response) {
+        var address = this.addresses[0];    // need LoadBalance module
+        var newConn = this.startConn(address.host, address.port, this.configs.timeout, function(response) {
             assert(response != -1);
         });
         var that = this;
