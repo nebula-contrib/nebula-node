@@ -5,90 +5,139 @@
  */
 
 var NebulaConn = require('./Connection').Connection;
-var SessionManager = require('./SessionManager').SessionManager;
+var SessionRecorder = require('./SessionRecorder').SessionRecorder;
+var SessionWrapper = require('./SessionWrapper').SessionWrapper;
+var LoadBalancer = require('./LoadBalancer').LoadBalancer;
+var ExceptionHandler = require('./ExceptionHandler').ExcecptionHandler;
 var eventEmitter = require('../events').eventEmitter;
-const assert = require('assert');
 
 var NebulaConnPool = exports.NebulaConnPool = function() {
     this.connections = {};
-    this.sesstionManager = new SessionManager();
-    this.addresses = new Array();
+    this.sessionRecorder = new SessionRecorder();
+    this.loadBalancer = new LoadBalancer();
+    this.exceptionHandler = new ExceptionHandler();
 }
 
 NebulaConnPool.prototype.prototype = {};
 
 NebulaConnPool.prototype.init = function(configs) {
-    this.addresses = configs.addresses;
     this.configs = configs;
 
     var that = this;
-    eventEmitter.on('delAddress', function(delIndex) {
-        that.addresses.splice(delIndex, 1);
+
+    eventEmitter.on('addAddress', function(address) {
+        that.configs.addresses.push(address);
     });
 
-    eventEmitter.on('setConnFree', function(sttime) {
+    eventEmitter.on('delAddress', function(delIndex) {
+        that.configs.addresses.splice(delIndex, 1);
+    });
+
+    eventEmitter.on('setConnFree', function(sttime, sessionId) {
+        that.connections[sttime].signout(sessionId);
         that.connections[sttime].status = 'free';
-        console.log('[INFO]: Set connection: ' + sttime + ' status free.');
+        console.log('ConnPool: [INFO]: Set connection: ' + sttime + ' status free.');
     });
 }
 
 NebulaConnPool.prototype.close = function() {
+    eventEmitter.emit('connPoolClose');
     for (var id in this.connections) {
         this.connections[id].close();
-        console.log('Close Connection: ' + id);
+        delete this.connections[id];
+        console.log('ConnPool: [INFO]: Close Connection: ' + id);
     }
-    eventEmitter.emit('connPoolClose');
+    eventEmitter.removeAllListeners();
 }
 
-NebulaConnPool.prototype.startConn = function(ip, port, timeout) {
-    if (Object.keys(this.connections).length < this.configs.maxConnectionPoolSize) {
+NebulaConnPool.prototype.startConn = function(host, port, timeout) {
+    if (this.configs === undefined) {
+        throw 'Parameters are not configured.';
+    } else if (Object.keys(this.connections).length < this.configs.maxConnectionPoolSize) {
         var timestamp = new Date().getTime();
-        var newConn = new NebulaConn(ip, port, timeout, timestamp);
-        newConn.open();
-        this.connections[timestamp] = newConn;
-        console.log('[INFO]: Start new connection: ' + timestamp + ' successfully!');
-        console.log('[INFO]: Connection Count: ' + Object.keys(this.connections).length);        
-        return newConn;
+        var newConn = new NebulaConn(host, port, timeout, timestamp);
+        try {
+            newConn.open();
+            this.connections[timestamp] = newConn;
+            console.log('ConnPool: [INFO]: Start new connection: ' + timestamp + ' successfully.');
+            console.log('ConnPool: [INFO]: Connection Count: ' + Object.keys(this.connections).length);        
+            return newConn;
+        } catch (e) {
+            throw e;
+        }
     } else {
-        console.log('[ERROR]: Start new connection failed: Connection Pool Size Limited!');
-        return -1;
+        throw 'Start new connection failed: Connection Pool Size Limited.';
     }   
 }
 
-NebulaConnPool.prototype.getSession = function(userName, password, retryConnect=true) {
+NebulaConnPool.prototype.fetchConn = function () {
+    var freeConn = this.getFreeConn();
+    if (freeConn != null) {
+        console.log('ConnPool: [INFO]: Use free connection: ' + freeConn.sttime);
+        return freeConn;
+    } else {
+        console.log('ConnPool: [INFO]: No available connection. Start a new connection.')
+        try {
+            var address = this.loadBalancer.getMinConnAddress(this);
+            if (this.configs === undefined) {
+                throw 'Parameters are not configured.';
+            } else {
+                var newConn = this.startConn(address.host, address.port, this.configs.timeout);
+            }
+            return newConn;
+        } catch (e) {
+            throw e
+        }   
+    }
+}
+
+NebulaConnPool.prototype.getSession = function(userName, password, retryConnect=false, useSpace = '') {
     var promise = new Promise((resolve, reject) => {    
         // need to add authenticate
-        var aliveSession = this.sesstionManager.findByUserName(userName);
-        if (aliveSession != null) {
-            resolve(aliveSession);
-        } else {
-
-            var freeConn = this.getFreeConn();
-            if (freeConn != null) {
-                var newConn = freeConn;
-                console.log('[INFO]: Use free connection: ' + freeConn.sttime);
-            } else {
-                console.log('[INFO]: No available connection. Execute startConn.')
-                var address = this.addresses[0];    // need LoadBalance module
-                var newConn = this.startConn(address.host, address.port, this.configs.timeout, function(response) {
-                    assert(response != -1);
+        // var aliveSession = this.SessionRecorder.getSessionByUserName(userName);
+        // if (aliveSession != null) {
+        //     console.log('SessionRecorder: [WARNING]: Available session of the username: ' + userName + 
+        //                     ' already exists. Use it instead: Session ID ' + aliveSession.sessionId + '.');
+        //     var sessionWrapper = new SessionWrapper(aliveSession.sessionId);
+        //     resolve(sessionWrapper);
+        // } else {
+            try {
+                var newConn = this.fetchConn();
+                var that = this;
+                var timeout = setTimeout(function() {
+                    console.error('ConnPool: [ERROR]: Can\'t connect to graph service.');
+                    newConn.status = 'failed';
+                    reject(new SessionWrapper(-1));
+                }, that.configs.timeout);
+                newConn.authenticate(userName, password, function (response) {
+                    clearTimeout(timeout);
+                    var userSession = that.sessionRecorder.createSession(userName, response.success.session_id, newConn, that.configs.timeout, retryConnect, password);
+                    var sessionWrapper = new SessionWrapper(userSession.sessionId);
+                    if (useSpace === '') {
+                        resolve(sessionWrapper);
+                    } else {
+                        userSession.execute('USE ' + useSpace)
+                        .then(function() {
+                            resolve(sessionWrapper);
+                        }, function() {
+                            reject(new SessionWrapper(-1));
+                        })
+                    }    
                 });
+            } catch (e) {
+                console.error('ConnPool: [ERROR]: ' + e);
+                var errorSessionWrapper = new SessionWrapper(-1);
+                reject(errorSessionWrapper);
             }
-            
-            var that = this;
-            newConn.authenticate(userName, password, function (response) {
-                var userSession = that.sesstionManager.createSession(userName, response.success.session_id, newConn);
-                resolve(userSession);
-            });
-        }
+        // }
     });
     return promise;
 }
 
 NebulaConnPool.prototype.getFreeConn = function() {
-    for (var stmt in this.connections) {
-        if (this.connections[stmt].status === 'free'){
-            return this.connections[stmt];
+    for (var sttime in this.connections) {
+        if (this.connections[sttime].status === 'free'){
+            return this.connections[sttime];
         }
     }
     return null;

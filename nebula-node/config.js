@@ -3,9 +3,9 @@ const { config } = require("chai");
 var eventEmitter = require("./events").eventEmitter;
 
 var Configs = exports.Configs = function() {
-    this.timeout = 0;
+    this.timeout = 1000;
     this.idleTime = 0;
-    this.maxConnectionPoolSize = 0;
+    this.maxConnectionPoolSize = 100;
     this.minConnectionPoolSize = 0;
     this.addresses = new Array();
 }
@@ -38,6 +38,7 @@ Configs.prototype.addAddress = function(host, port) {
         'port': port
     };
     this.addresses.push(address);
+    eventEmitter.emit('addAddress', address);
 }
 
 Configs.prototype.delAddress = function(host, port) {
