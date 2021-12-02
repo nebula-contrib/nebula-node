@@ -1,5 +1,5 @@
 {
-  "name": "nebula-nodejs",
+  "name": "@vesoft-inc/nebula-nodejs",
   "version": "0.1.0",
   "description": "This repository provides Nebula client API in Nodejs.",
   "main": "index.js",
