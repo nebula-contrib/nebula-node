@@ -20,7 +20,6 @@
 var binary = require('./binary');
 var InputBufferUnderrunError = require('./input_buffer_underrun_error');
 var THeaderTransport = require('./header_transport');
-var metrics = require('./metrics');
 
 module.exports = TFramedTransport;
 
@@ -89,10 +88,6 @@ TFramedTransport.receiver = function(callback, seqid) {
       if (residual.length < 4 + frameSize) {
         return;
       }
-
-      // 对package计数
-      metrics.packageCountCounter.inc();
-      metrics.packageSizeCounter.inc(frameSize);
 
       // 移除前面4个字节：这部分数据是用来标识是标识数据包长度的
       residual.splice(0, 4)

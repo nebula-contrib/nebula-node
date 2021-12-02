@@ -16,6 +16,8 @@ Client will try to reconnect forever, until the server is available again.
 
 A heartbeat mechanism is implemented, client will send ping to server each `pingInterval` ms for detect connective
 
+### [Thrift enhancement](./THRIFT-CHANGES.md)
+
 ## API
 
 ### Connection Options
@@ -62,7 +64,7 @@ const client = createClient(options)
 // 1. return parsed data (recommend)
 const response = await client.execute('GET SUBGRAPH 3 STEPS FROM -7897618527020261406')
 // 2. return nebula original data
-const response = await client.execute('GET SUBGRAPH 3 STEPS FROM -7897618527020261406', true)
+const responseOriginal = await client.execute('GET SUBGRAPH 3 STEPS FROM -7897618527020261406', true)
 
 ```
 
@@ -132,12 +134,6 @@ npm run test
 
 ```shell
 npm run coverage
-```
-
-### Dev in TDD mode
-
-```shell
-npm run dev
 ```
 
 ### Publish

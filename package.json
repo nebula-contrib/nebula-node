@@ -4,7 +4,6 @@
   "description": "This repository provides Nebula client API in Nodejs.",
   "main": "index.js",
   "scripts": {
-    "dev": "babel-node ./tools/run dev",
     "build": "cross-env NODE_ENV=production babel-node --max-old-space-size=7168 ./tools/run build",
     "clean": "babel-node ./tools/run clean",
     "test": "babel-node ./tools/run test",
@@ -30,7 +29,6 @@
     "ws": "^5.2.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "thrift": "0.14.1-fixed-2",
     "uuid": "^8.3.2"
   },
   "engines": {

@@ -3,7 +3,7 @@
  */
 
 import _ from 'lodash'
-import thrift from 'thrift'
+import thrift from '../thrift'
 import { EventEmitter } from 'events'
 import GraphService from './interface/GraphService'
 import { ConnectionOption, ConnectionInfo, Task } from './types'
