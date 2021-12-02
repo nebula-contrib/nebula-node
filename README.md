@@ -161,7 +161,7 @@ npm publish
 
 Not implemented data type
 
-| Data Type | variable name in nebula response |
+| Data Type | property name in nebula response |
 | --------- | -------------------------------- |
 | NMap      | mVal                             |
 | NSet      | uVal                             |
