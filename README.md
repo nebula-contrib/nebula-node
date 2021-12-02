@@ -112,7 +112,7 @@ client.on('close', { sender }) => {
 
 ### About hash64 function
 
-`nebula-nodejs` exports `hash64` function for converting `string` to `number[]`, it's based on `MurmurHash3`.
+`nebula-nodejs` exports `hash64` function for converting `string` to `string[]`, it's based on `MurmurHash3`.
 
 ```javascript
 import { hash64 } from 'nebula-nodejs'
@@ -123,6 +123,21 @@ console.log(results)
 
 // Output:
 // ['2852836996923339651', '-6853534673140605817']
+```
+
+### About Int64
+
+nodejs cannot repreent `Int64`, so we convert `Int64` bytes to `string`
+
+```javascript
+import { bytesToLongLongString } from 'nebula-nodejs'
+
+const s = '-7897618527020261406'
+
+const buffer = [146, 102, 5, 203, 5, 105, 223, 226]
+const result = bytesToLongLongString(buffer)
+
+// result equals s
 ```
 
 ### Development
@@ -166,5 +181,3 @@ Not implemented data type
 | NMap      | mVal                             |
 | NSet      | uVal                             |
 | DataSet   | gVal                             |
-
-Made with ♥ by Wu Jian Ping
