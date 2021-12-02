@@ -5,13 +5,15 @@
 import _ from 'lodash'
 import path from 'path'
 import glob from 'glob'
-import fsPromise from 'fs/promises'
+import fs from 'fs'
 
 import run from './run'
 import { getBuildStage0Dir, getBuildTsConfigFile, runNpmCli, getBuildStage1Dir, getModuleDistDir } from './libs/utils'
 import clean, { cleanTemp } from './clean'
 import { copyFile, makeDir } from './libs/fs'
 import { copyDeclarationFiles, copyMarkdown, copyNative, copyThrift, generatePackageJson, copyNpmIngoreFile } from './copy'
+
+const fsPromise = fs.fsPromise
 
 const buildStage0 = {
   name: 'stage-0',
