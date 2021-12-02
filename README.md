@@ -4,19 +4,19 @@ This repository provides Nebula client API in Nodejs.
 
 ## Features
 
-### Muti-Server Support
+### 1. Muti-Server Support
 
-### Auto-reconnection support
+### 2. Auto-reconnection support
 
 Client will try to reconnect forever, until the server is available again.
 
-### Connection pool support
+### 3. Connection pool support
 
-### Disconnection detection
+### 4. Disconnection detection
 
 A heartbeat mechanism is implemented, client will send ping to server each `pingInterval` ms for detect connective
 
-### [Thrift enhancement](./THRIFT-CHANGES.md)
+### 5. [Thrift enhancement](./THRIFT-CHANGES.md)
 
 ## API
 
