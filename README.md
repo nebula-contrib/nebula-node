@@ -38,7 +38,7 @@ This repository provides Nebula client API in Nodejs.
 
 #### Install
 
-for compiling C++ native module, `node-gyp` is required, you can install `node-gyp` by `npm install -g node-gyp`
+For compiling C++ native module, `node-gyp` is required, you can install `node-gyp` by `npm install -g node-gyp`
 
 ```shell
 npm install nebula-nodejs --save --unsafe-perm
