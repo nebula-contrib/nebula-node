@@ -51,7 +51,7 @@ const options: ClientOption = {
   database: 'database name',
   poolSize: 5,
   bufferSize: 2000,
-  executeTimeout: 15000
+  executeTimeout: 15000,
   pingInterval： 60000
 }
 
