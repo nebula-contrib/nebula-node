@@ -112,6 +112,21 @@ client.on('close', { sender }) => {
 }
 ```
 
+### About hash64 function
+
+`nebula-nodejs` exports `hash64` function for converting `string` to `number[]`, it's based on `MurmurHash3`.
+
+```javascript
+import { hash64 } from 'nebula-nodejs'
+
+const results = hash64('f10011b64aa4e7503cd45a7fdc24387b')
+
+console.log(results)
+
+// Output:
+// ['2852836996923339651', '-6853534673140605817']
+```
+
 ### Development
 
 #### Build
