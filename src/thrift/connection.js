@@ -201,11 +201,11 @@ Connection.prototype.connection_gone = function () {
   this.connected = false;
   
   if(this.forceClose){
-    self.emit("close");
     if (this.retry_timer) {
       clearTimeout(this.retry_timer);
       this.retry_timer = null;
-    }  
+    }
+    self.emit("close");  
     return;
   }
 
