@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/vesoft-inc/nebula-node.git"
   },
-  "author": "wujjpp@hotmail.com",
+  "author": "Wu Jian Ping",
   "license": "Apache 2.0 License + Common Clause Condition 1.0",
   "bugs": {
     "url": "https://github.com/vesoft-inc/nebula-node/issues"
