@@ -14,7 +14,11 @@ This repository provides Nebula client API in Nodejs.
 
   A heartbeat mechanism is implemented, client will send ping to server each `pingInterval` ms for detect connective
 
-- [Thrift enhancement](./THRIFT-CHANGES.md)
+- Thrift enhancement
+
+  fix auto reconnect issue[#2407](https://github.com/apache/thrift/pull/2407)  
+
+  fix performance issue in huge data scene[#2483](https://github.com/apache/thrift/pull/2483)
 
 ## API
 
