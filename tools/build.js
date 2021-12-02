@@ -11,7 +11,7 @@ import run from './run'
 import { getBuildStage0Dir, getBuildTsConfigFile, runNpmCli, getBuildStage1Dir, getModuleDistDir } from './libs/utils'
 import clean, { cleanTemp } from './clean'
 import { copyFile, makeDir } from './libs/fs'
-import { copyDeclarationFiles, copyMarkdown, copyNative, copyThrift, generatePackageJson } from './copy'
+import { copyDeclarationFiles, copyMarkdown, copyNative, copyThrift, generatePackageJson, copyNpmIngoreFile } from './copy'
 
 const buildStage0 = {
   name: 'stage-0',
@@ -97,6 +97,9 @@ const build = {
 
     // build native module
     await runNpmCli('node-gyp', ['rebuild'], { cwd: getModuleDistDir() }, true)
+
+    // add npm ignore file
+    await run(copyNpmIngoreFile)
 
     // clean .tmp
     await cleanTemp()

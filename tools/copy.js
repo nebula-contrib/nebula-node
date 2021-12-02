@@ -2,7 +2,7 @@
  * Created by Wu Jian Ping on - 2021/01/07.
  */
 
-import { makeDir, copyDir, writeFile } from './libs/fs'
+import { makeDir, copyDir, writeFile, copyFile } from './libs/fs'
 import { getModuleDir, getModuleDistDir, getBuildStage0Dir, getModuleSourceDir } from './libs/utils'
 import path from 'path'
 import _ from 'lodash'
@@ -58,10 +58,19 @@ const generatePackageJson = {
   }
 }
 
+const copyNpmIngoreFile = {
+  name: 'copy npm ignore file',
+  func: async () => {
+    await makeDir(getModuleDistDir())
+    await copyFile(path.join(process.cwd(), '.npmignore'), path.join(getModuleDistDir(), '.npmignore'))
+  }
+}
+
 export {
   copyDeclarationFiles,
   copyMarkdown,
   copyNative,
   copyThrift,
-  generatePackageJson
+  generatePackageJson,
+  copyNpmIngoreFile
 }

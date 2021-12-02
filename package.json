@@ -1,5 +1,5 @@
 {
-  "name": "@vesoft-inc/nebula-nodejs",
+  "name": "nebula-nodejs",
   "version": "0.1.0",
   "description": "This repository provides Nebula client API in Nodejs.",
   "main": "index.js",
@@ -106,6 +106,6 @@
     "which": "^2.0.2"
   },
   "publishConfig": {
-    "registry": "https://www.npmjs.com/"
+    "registry": "https://registry.npmjs.org/"
   }
 }
