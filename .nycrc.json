@@ -1,0 +1,18 @@
+{
+  "all": true,
+  "extends": ["@istanbuljs/nyc-config-typescript", "@istanbuljs/nyc-config-babel"],
+  "report-dir": "./coverage/",
+  "reporter": ["html", "text"],
+  "require": [
+    "@babel/register",
+    "esm"
+  ],
+  "include": [
+    ".tmp/dist/**/*.js",
+    ".tmp/dist/**/*.ts"
+  ],
+  "exclude": [
+    ".tmp/dist/thrift/**/*"
+  ],
+  "exclude-after-remap": false
+}
