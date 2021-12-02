@@ -174,7 +174,7 @@ npm publish
 
 ## TODO
 
-Not implemented data type
+Not implemented data type for auto parser
 
 | Data Type | property name in nebula response |
 | --------- | -------------------------------- |
