@@ -54,12 +54,15 @@ const coverage = {
     await runNpmCli('nyc', [
       '--silent',
       'mocha',
+      `--config ${path.join(process.cwd(), '.mocharc.nyc.json')}`,
+      '--no-config',
       ...files
     ])
 
     await runNpmCli('nyc', ['report'])
 
     open(path.join(process.cwd(), 'coverage', 'index.html'))
+
     return Promise.resolve()
   }
 }

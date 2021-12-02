@@ -44,15 +44,13 @@ export default class Client extends EventEmitter {
   constructor(option: ClientOption) {
     super()
 
-    // pollSize默认5
+    // poolSize
     option.poolSize = getNumberValue(option.poolSize, 5)
-    // 命令缓存列表默认2000
+    // Cached command buffer size
     option.bufferSize = getNumberValue(option.bufferSize, 2000)
-    // 命令执行超时默认10秒
+    // executing timeout in ms
     option.executeTimeout = getNumberValue(option.executeTimeout, 10000)
-    // 慢查询默认阀值300毫秒
-    option.threshold = getNumberValue(option.threshold, 300)
-    // ping轮询时间默认60秒
+    // ping suration in ms
     option.pingInterval = getNumberValue(option.pingInterval, 60000)
 
     this.clientOption = option
@@ -90,8 +88,7 @@ export default class Client extends EventEmitter {
           port,
           userName: this.clientOption.userName,
           password: this.clientOption.password,
-          database: this.clientOption.database,
-          threshold: this.clientOption.threshold
+          database: this.clientOption.database
         })
 
         connection.on('ready', ({ sender }: { sender: Connection }) => {
@@ -136,7 +133,7 @@ export default class Client extends EventEmitter {
 
         connection.connectionId = `${host}-${port}-${i}`
 
-        // 每隔一段时间执行一次守护检查
+        // set ping jobs
         this.connectionGuarders.push(setInterval(() => {
           connection.ping(this.clientOption.executeTimeout)
         }, this.clientOption.pingInterval))
@@ -147,10 +144,10 @@ export default class Client extends EventEmitter {
   }
 
   /**
-   * 执行命令
+   * Execute command
    *
-   * @param command 需要执行的命令
-   * @param returnOriginalData 是否返回nebula原始数据
+   * @param command Command
+   * @param returnOriginalData Return nebula orginal response?
    * @returns
    */
   execute(command: string, returnOriginalData = false): Promise<any> {
@@ -185,7 +182,6 @@ export default class Client extends EventEmitter {
           connection.run(task)
         }
       } else {
-        // 参照mongoose的设计，taskQueue应该有个最大值，以避免当前应用因为内存问题而发生崩溃，这边需要将最早的task做失败处理
         if (this.taskQueue.length >= this.clientOption.bufferSize) {
           const taskShouldReject = this.taskQueue.shift()
           const err = new NebulaError(9997, 'Nebula command buffer is full')
@@ -197,14 +193,14 @@ export default class Client extends EventEmitter {
           }
         }
 
-        // 将新的任务推入taskQueue
+        // add task to taskQueue
         this.taskQueue.push(task)
       }
     })
   }
 
   close(): Promise<any> {
-    // 清理guarder
+    // clear guarder
     _.forEach(this.connectionGuarders, timer => {
       clearInterval(timer)
     })

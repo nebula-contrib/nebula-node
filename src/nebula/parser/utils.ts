@@ -17,22 +17,11 @@ const NubulaValueTypeNames = [
   'dtVal'
 ]
 
-/**
- * 获取nebula对象的类型名称
- *
- * @param obj
- * @returns
- */
+
 const getNebulaValueTypeName = (obj: NebulaValue): string => {
   return _.chain(obj).keys().filter(k => obj[k] !== null).first().value()
 }
 
-/**
- * 判断一个对象类型是否为nubela数据类型
- *
- * @param obj
- * @returns
- */
 const isNebulaValue = (obj: any): boolean => {
   return obj && obj.nVal !== undefined
 }

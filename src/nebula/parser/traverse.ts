@@ -39,9 +39,9 @@ const getNebulaValue = (obj: any): any => {
 }
 
 const convert = (entity: any): any => {
-  if (_.isFunction(entity)) { // 去掉函数
+  if (_.isFunction(entity)) {
     return undefined
-  } else if (utils.isNebulaValue(entity)) { // 解析nebula数据
+  } else if (utils.isNebulaValue(entity)) {
     const obj = getNebulaValue(entity)
     if (_.isDate(entity)) {
       return entity
@@ -49,13 +49,13 @@ const convert = (entity: any): any => {
       return convert(obj)
     }
     return obj
-  } else if (_.isArray(entity)) { // 处理数组
+  } else if (_.isArray(entity)) {
     const out = []
     _.forEach(entity, o => {
       out.push(convert(o))
     })
     return out
-  } else if (_.isPlainObject(entity)) { // 处理对象
+  } else if (_.isPlainObject(entity)) {
     const out = {}
     const keys = _.keys(entity)
     _.forEach(keys, key => {
@@ -63,7 +63,7 @@ const convert = (entity: any): any => {
       out[key] = convert(o)
     })
     return out
-  } else if (entity instanceof Int64) { // 处理未遵循规范的i64值, 如：'ranking'属性，并没有按照标准进行封装，只是放了一个i64
+  } else if (entity instanceof Int64) {
     if (isFinite(entity.valueOf())) {
       return +entity.toString()
     } else {
@@ -72,7 +72,7 @@ const convert = (entity: any): any => {
       }
       return entity.toOctetString()
     }
-  } else if (_.isDate(entity)) { // Date同时是Object
+  } else if (_.isDate(entity)) {
     return entity
   } else if (_.isObject(entity)) {
     return convert(_.toPlainObject(entity))

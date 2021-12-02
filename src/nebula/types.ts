@@ -10,7 +10,6 @@ interface ConnectionOption {
   userName: string;
   password: string;
   database: string;
-  threshold: number;
 }
 
 interface Endpoint {
@@ -31,8 +30,6 @@ interface ClientOption {
   poolSize?: number;
   // 缓存区大小，默认：2000
   bufferSize?: number;
-  // 慢查询阀值（毫秒）， 默认：300
-  threshold?: number;
   // 查询超时（毫秒），包含在队列中等待时间和真正执行时间， 默认：10000
   executeTimeout?: number;
   // ping轮询时间（毫秒）， 默认：30000

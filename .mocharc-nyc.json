@@ -4,7 +4,6 @@
   "exit": true,
   "require": [
     "source-map-support/register",
-    "ts-node/register",
     "@babel/register",
     "esm"
   ]

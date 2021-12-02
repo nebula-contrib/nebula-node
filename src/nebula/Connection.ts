@@ -26,8 +26,7 @@ export default class Connection extends EventEmitter {
 
     connectionOption = _.defaults(connectionOption, {
       bufferSize: 2000,
-      poolSize: 1,
-      threshold: 300
+      poolSize: 5
     })
 
     this.connectionOption = connectionOption

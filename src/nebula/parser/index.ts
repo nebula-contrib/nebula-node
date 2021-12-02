@@ -7,7 +7,6 @@
 import _traverse from './traverse'
 
 const traverse = (obj: any): Promise<any> => {
-  // 这边使用setImmediate替代直接函数调用, 以避免单个转换操作影响整体性能指标，注：不能使用process.nextTick
   return new Promise((resolve, reject) => {
     setImmediate(() => {
       try {
