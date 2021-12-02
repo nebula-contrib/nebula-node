@@ -38,7 +38,7 @@ This repository provides Nebula client API in Nodejs.
 npm install nebula-nodejs --save --unsafe-perm
 ```
 
-### Simple and convenient API
+#### Simple and convenient API
 
 ```typescript
 import createClient, { ClientOption } from 'nebula-nodejs'
@@ -66,7 +66,7 @@ const responseOriginal = await client.execute('GET SUBGRAPH 3 STEPS FROM -789761
 
 ```
 
-### Events
+#### Events
 
 | parameter         | description                                  |
 | ----------------- | -------------------------------------------- |
@@ -140,9 +140,9 @@ const result = bytesToLongLongString(buffer)
 // result equals s
 ```
 
-### Development
+## Development
 
-#### Build
+### Build
 
 ```shell
 git clone https://github.com/vesoft-inc/nebula-node.git
@@ -151,14 +151,14 @@ npm install --unsafe-perm
 npm run build
 ```
 
-#### Unit Test
+### Unit Test
 
 ```shell
 npm run build
 npm run test
 ```
 
-#### Unit Test Coverage
+### Unit Test Coverage
 
 ```shell
 npm run coverage
