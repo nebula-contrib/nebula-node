@@ -41,10 +41,9 @@ const tsc = async () => {
 const coverage = {
   name: 'coverage',
   func: async () => {
-    await cleanNYC()
-
     cowsay2('Starting generate coverage report...')
 
+    await cleanNYC()
     await run(build)
     await tsc()
     await copyDir(getModuleDistDir(), path.join(getModuleTempDir(), 'dist'))
@@ -54,8 +53,7 @@ const coverage = {
     await runNpmCli('nyc', [
       '--silent',
       'mocha',
-      `--config ${path.join(process.cwd(), '.mocharc.nyc.json')}`,
-      '--no-config',
+      `--config=${path.join(process.cwd(), '.mocharc.nyc.json')}`,
       ...files
     ])
 

@@ -30,7 +30,15 @@ A heartbeat mechanism is implemented, client will send ping to server each `ping
 | executeTimeout | number   | Command executing timeout in ms (Optional, default：10000)                      |
 | pingInterval   | number   | for keepalive, ping duration in ms, (Optional, default：60000）                 |
 
-### Example
+### How To
+
+#### Install
+
+```shell
+npm install nebula-nodejs --save --unsafe-perm
+```
+
+### Simple and convenient API
 
 ```typescript
 import createClient, { ClientOption } from 'nebula-nodejs'
@@ -56,6 +64,88 @@ const response = await client.execute('GET SUBGRAPH 3 STEPS FROM -78976185270202
 // 2. return nebula original data
 const response = await client.execute('GET SUBGRAPH 3 STEPS FROM -7897618527020261406', true)
 
+```
+
+### Events
+
+| parameter         | description                                  |
+| ----------------- | -------------------------------------------- |
+| sender            | the individual connection in connection pool |
+| error             | Nebula Error                                 |
+| retryInfo         | Retry information                            |
+| retryInfo.delay   | delay time                                   |
+| retryInfo.attempt | total attempts                               |
+
+```javascript
+const client = createClient(options)
+
+// connection is ready for executing command
+client.on('ready', ({sender}) => {
+
+})
+
+// error occurs
+client.on('error', ({ sender, error }) => {
+
+})
+
+// connected event
+client.on('connected', ({ sender }) => {
+
+})
+
+// authorized successfully
+client.on('authorized', ({ sender }) => {
+
+})
+
+// reconnecting
+client.on('reconnecting', ({ sender, retryInfo }) => {
+
+})
+
+// closed
+client.on('close', { sender }) => {
+
+}
+```
+
+### Development
+
+#### Build
+
+```shell
+git clone https://github.com/vesoft-inc/nebula-node.git
+cd nebula-node
+npm install --unsafe-perm
+npm run build
+```
+
+#### Unit Test
+
+```shell
+npm run build
+npm run test
+```
+
+#### Unit Test Coverage
+
+```shell
+npm run coverage
+```
+
+### Dev in TDD mode
+
+```shell
+npm run dev
+```
+
+### Publish
+
+```shell
+npm run build
+cd dist
+npm publish
 ```
 
 ## TODO
