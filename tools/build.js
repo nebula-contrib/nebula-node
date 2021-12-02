@@ -13,7 +13,7 @@ import clean, { cleanTemp } from './clean'
 import { copyFile, makeDir } from './libs/fs'
 import { copyDeclarationFiles, copyMarkdown, copyNative, copyThrift, generatePackageJson, copyNpmIngoreFile } from './copy'
 
-const fsPromise = fs.fsPromise
+const fsPromise = fs.promises
 
 const buildStage0 = {
   name: 'stage-0',
