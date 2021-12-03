@@ -167,7 +167,7 @@ export default class Connection extends EventEmitter {
     Promise
       .resolve()
       .then(() => {
-        return this.client.execute(this.sessionId, task.command)
+        return this.client.execute(this.sessionId, Buffer.from(task.command, 'utf-8'))
       })
       .then((response: any) => {
         // 清理executing timer
