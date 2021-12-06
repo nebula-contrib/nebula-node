@@ -58,7 +58,7 @@ const options: ClientOption = {
   poolSize: 5,
   bufferSize: 2000,
   executeTimeout: 15000,
-  pingInterval： 60000
+  pingInterval: 60000
 }
 
 // Create client
