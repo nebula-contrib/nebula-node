@@ -47,10 +47,10 @@ npm install nebula-nodejs --save --unsafe-perm
 #### Simple and convenient API
 
 ```typescript
-import createClient, { ClientOption } from 'nebula-nodejs'
+import createClient from 'nebula-nodejs'
 
 // Connection Options
-const options: ClientOption = {
+const options = {
   servers: ['ip-1:port','ip-2:port'],
   userName: 'xxx',
   password: 'xxx',
