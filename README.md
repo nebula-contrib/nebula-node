@@ -47,7 +47,11 @@ npm install nebula-nodejs --save --unsafe-perm
 #### Simple and convenient API
 
 ```typescript
-import createClient from 'nebula-nodejs'
+// ESM
+import { createClient } from 'nebula-nodejs'
+
+// CommonJS
+// const { createClient } = require('nebula-nodejs')
 
 // Connection Options
 const options = {
@@ -121,7 +125,11 @@ client.on('close', { sender }) => {
 `nebula-nodejs` exports `hash64` function for converting `string` to `string[]`, it's based on `MurmurHash3`.
 
 ```javascript
+// ESM
 import { hash64 } from 'nebula-nodejs'
+
+// CommonJS
+// const { hash64 } = require('nebula-nodejs')
 
 const results = hash64('f10011b64aa4e7503cd45a7fdc24387b')
 
@@ -136,7 +144,11 @@ console.log(results)
 nodejs cannot repreent `Int64`, so we convert `Int64` bytes to `string`
 
 ```javascript
+// ESM
 import { bytesToLongLongString } from 'nebula-nodejs'
+
+// CommonJS
+// const { bytesToLongLongString } = require('nebula-nodejs')
 
 const s = '-7897618527020261406'
 
