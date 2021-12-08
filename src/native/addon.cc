@@ -58,11 +58,11 @@ namespace addon
     long long out[2];
 
     Local<String> key = Local<String>::Cast(args[0]);
-    int length = key->Length();
 
     v8::String::Utf8Value str(isolate, key);
 
     char *c_str = *str;
+    int length = strlen(c_str);
 
     MurmurHash3_x64_128((void *)c_str, length, 0, &out);
 
