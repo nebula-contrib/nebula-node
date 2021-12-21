@@ -29,6 +29,7 @@ This repository provides Nebula client API in Nodejs.
 | servers        | string[] | nebula servers                                                                  |
 | userName       | string   | username for login                                                              |
 | password       | string   | password for login                                                              |
+| space          | string   | space name in nebula server                                                     |
 | poolSize       | number   | Pool size for each server(Optional, default：5)                                 |
 | bufferSize     | number   | Command cache in offline or before established connect (Optional, defaul: 2000) |
 | executeTimeout | number   | Command executing timeout in ms (Optional, default：10000)                      |
@@ -58,7 +59,7 @@ const options = {
   servers: ['ip-1:port','ip-2:port'],
   userName: 'xxx',
   password: 'xxx',
-  database: 'database name',
+  space: 'space name',
   poolSize: 5,
   bufferSize: 2000,
   executeTimeout: 15000,
