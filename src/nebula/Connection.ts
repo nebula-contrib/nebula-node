@@ -84,7 +84,7 @@ export default class Connection extends EventEmitter {
 
         return new Promise((resolve, reject) => {
           this.run({
-            command: `Use ${this.connectionOption.database}`,
+            command: `Use ${this.connectionOption.space}`,
             returnOriginalData: false,
             resolve,
             reject
@@ -211,7 +211,7 @@ export default class Connection extends EventEmitter {
       connectionId: this.connectionId,
       host: this.connectionOption.host,
       port: this.connectionOption.port,
-      database: this.connectionOption.database,
+      space: this.connectionOption.space,
       isReady: this.isReady
     }
   }

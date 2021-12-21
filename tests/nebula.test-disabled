@@ -9,7 +9,7 @@ import createClient, { ClientOption } from '../dist'
 const relationServer: ClientOption = {
   servers: ['10.0.1.100:9669', '10.0.1.101:9669', '10.0.1.102:9669'],
   userName: 'xxxxx',
-  password: 'xxxxx',
+  space: 'xxxxx',
   database: 'partion1',
   pingInterval: 5000,
   poolSize: 2
@@ -18,7 +18,7 @@ const relationServer: ClientOption = {
 const riskInfoServer: ClientOption = {
   servers: ['10.0.1.100:9669', '10.0.1.101:9669', '10.0.1.102:9669'],
   userName: 'xxxxx',
-  password: 'xxxxx',
+  space: 'xxxxx',
   database: 'partion2',
   pingInterval: 5000,
   poolSize: 2

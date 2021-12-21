@@ -88,7 +88,7 @@ export default class Client extends EventEmitter {
           port,
           userName: this.clientOption.userName,
           password: this.clientOption.password,
-          database: this.clientOption.database
+          space: this.clientOption.space
         })
 
         connection.on('ready', ({ sender }: { sender: Connection }) => {

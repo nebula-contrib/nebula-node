@@ -9,7 +9,7 @@ interface ConnectionOption {
   port: number;
   userName: string;
   password: string;
-  database: string;
+  space: string;
 }
 
 interface Endpoint {
@@ -25,7 +25,7 @@ interface ClientOption {
   // 密码
   password: string;
   // 数据库名称
-  database: string;
+  space: string;
   // 连接池大小，默认：5
   poolSize?: number;
   // 缓存区大小，默认：2000
@@ -40,7 +40,7 @@ interface ConnectionInfo {
   connectionId: string;
   host: string;
   port: number;
-  database: string;
+  space: string;
   isReady: boolean;
 }
 
