@@ -1,0 +1,6 @@
+dist/**/*
+.tmp/**/*
+node_modules
+specs/gen-nodejs/**/*
+src/nebula/interface/**/*
+src/thrift/*

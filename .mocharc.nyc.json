@@ -1,0 +1,10 @@
+{
+  "reporter": "spec",
+  "timeout": 60000,
+  "exit": true,
+  "require": [
+    "source-map-support/register",
+    "@babel/register",
+    "esm"
+  ]
+}
