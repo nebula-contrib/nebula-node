@@ -15,7 +15,7 @@
     "url": "git+https://github.com/nebula-contrib/nebula-node.git"
   },
   "author": "Wu Jian Ping",
-  "license": "Apache 2.0 License + Common Clause Condition 1.0",
+  "license": "Apache 2.0 License",
   "bugs": {
     "url": "https://github.com/nebula-contrib/nebula-node/issues"
   },
