@@ -42,17 +42,17 @@ This repository provides Nebula client API in Nodejs.
 For compiling C++ native module, `node-gyp` is required, you can install `node-gyp` by `npm install -g node-gyp`
 
 ```shell
-npm install nebula-nodejs --save --unsafe-perm
+npm install @nebula-contrib/nebula-nodejs --save --unsafe-perm
 ```
 
 #### Simple and convenient API
 
 ```typescript
 // ESM
-import { createClient } from 'nebula-nodejs'
+import { createClient } from '@nebula-contrib/nebula-nodejs'
 
 // CommonJS
-// const { createClient } = require('nebula-nodejs')
+// const { createClient } = require('@nebula-contrib/nebula-nodejs')
 
 // Connection Options
 const options = {
@@ -127,10 +127,10 @@ client.on('close', { sender }) => {
 
 ```javascript
 // ESM
-import { hash64 } from 'nebula-nodejs'
+import { hash64 } from '@nebula-contrib/nebula-nodejs'
 
 // CommonJS
-// const { hash64 } = require('nebula-nodejs')
+// const { hash64 } = require('@nebula-contrib/nebula-nodejs')
 
 const results = hash64('f10011b64aa4e7503cd45a7fdc24387b')
 
@@ -146,10 +146,10 @@ nodejs cannot repreent `Int64`, so we convert `Int64` bytes to `string`
 
 ```javascript
 // ESM
-import { bytesToLongLongString } from 'nebula-nodejs'
+import { bytesToLongLongString } from '@nebula-contrib/nebula-nodejs'
 
 // CommonJS
-// const { bytesToLongLongString } = require('nebula-nodejs')
+// const { bytesToLongLongString } = require('@nebula-contrib/nebula-nodejs')
 
 const s = '-7897618527020261406'
 
@@ -200,3 +200,9 @@ Not implemented data type for auto parser
 | NMap      | mVal                             |
 | NSet      | uVal                             |
 | DataSet   | gVal                             |
+
+## Released Versions in npmjs.com
+
+| NodeJS Client Version | Nebula Graph Version |
+| --------------------- | --------------------- |
+| 2.6.1                 | 2.6.x                 |
