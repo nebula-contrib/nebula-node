@@ -1,6 +1,6 @@
 {
-  "name": "nebula-nodejs",
-  "version": "0.1.0",
+  "name": "@nebula-contrib/nebula-nodejs",
+  "version": "2.6.1",
   "description": "This repository provides Nebula client API in Nodejs.",
   "main": "index.js",
   "scripts": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vesoft-inc/nebula-node.git"
+    "url": "git+https://github.com/nebula-contrib/nebula-node.git"
   },
   "author": "Wu Jian Ping",
-  "license": "Apache 2.0 License + Common Clause Condition 1.0",
+  "license": "Apache 2.0 License",
   "bugs": {
-    "url": "https://github.com/vesoft-inc/nebula-node/issues"
+    "url": "https://github.com/nebula-contrib/nebula-node/issues"
   },
-  "homepage": "https://github.com/vesoft-inc/nebula-node#readme",
+  "homepage": "https://github.com/nebula-contrib/nebula-node#readme",
   "dependencies": {
     "bindings": "^1.5.0",
     "browser-or-node": "^1.2.1",
