@@ -164,7 +164,7 @@ const result = bytesToLongLongString(buffer)
 ### Build
 
 ```shell
-git clone https://github.com/vesoft-inc/nebula-node.git
+git clone https://github.com/nebula-contrib/nebula-node.git
 cd nebula-node
 npm install --unsafe-perm
 npm run build
