@@ -143,10 +143,10 @@ export default class Connection extends EventEmitter {
         const timer = setTimeout(() => { resolve(false) }, timeout)
         this
           .client
-          .execute(0, 'YIELD 1')
-          .then(() => {
+          .execute(this.sessionId, 'YIELD 1')
+          .then(response => {
             clearTimeout(timer)
-            resolve(true)
+            resolve(response.error_code === 0)
           })
           .catch(() => {
             clearTimeout(timer)
