@@ -3,15 +3,15 @@
  * Created by Wu Jian Ping on - 2021/06/09.
  */
 
-import _ from 'lodash'
 import Int64 from 'node-int64'
-import valueParse from './value'
-import utils from './utils'
-import listParser from './list'
-import vertexParser from './vertex'
+import _ from 'lodash'
 import edgeParser from './edge'
-import pathParser from './path'
+import listParser from './list'
 import native from '../../native'
+import pathParser from './path'
+import utils from './utils'
+import valueParse from './value'
+import vertexParser from './vertex'
 
 const getNebulaValue = (obj: any): any => {
   if (utils.isNebulaValue(obj)) {
