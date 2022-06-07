@@ -11,7 +11,7 @@
  *
  */
 
-const binary (cpp.type = "char const *") version = "3.0.0"
+const string version = "3.0.0"
 
 typedef i64 ClusterID
 typedef i32 GraphSpaceID
@@ -108,7 +108,7 @@ struct NList {
 
 // Unordered key/values pairs
 struct NMap {
-    1: map<binary, Value> kvs;
+    1: map<string, Value> kvs;
 }
 
 
@@ -153,9 +153,9 @@ union Geography {
 
 
 struct Tag {
-    1: binary name,
+    1: string name,
     // List of <prop_name, prop_value>
-    2: map<binary, Value> props,
+    2: map<string, Value> props,
 }
 
 
@@ -169,19 +169,19 @@ struct Edge {
     1: Value src,
     2: Value dst,
     3: EdgeType type,
-    4: binary name,
+    4: string name,
     5: EdgeRanking ranking,
     // List of <prop_name, prop_value>
-    6: map<binary, Value> props,
+    6: map<string, Value> props,
 }
 
 
 struct Step {
     1: Vertex dst,
     2: EdgeType type,
-    3: binary name,
+    3: string name,
     4: EdgeRanking ranking,
-    5: map<binary, Value> props,
+    5: map<string, Value> props,
 }
 
 
@@ -200,8 +200,8 @@ struct HostAddr {
 
 
 struct KeyValue {
-    1: binary key,
-    2: binary value,
+    1: string key,
+    2: string value,
 }
 
 // !! Struct Duration has a shadow data type defined in the Duration.h
@@ -219,22 +219,22 @@ struct LogInfo {
 
 struct DirInfo {
     // Installation directory for nebula
-    1: binary                   root,
+    1: string                   root,
     // nebula's data directory
-    2: list<binary>             data,
+    2: list<string>             data,
 }
 
 struct CheckpointInfo {
     1: GraphSpaceID          space_id,
     2: map<PartitionID, LogInfo> parts,
     // storage checkpoint directory name
-    3: binary                path,
+    3: string                path,
 }
 
 // used for drainer
 struct LogEntry {
     1: ClusterID cluster;
-    2: binary log_str;
+    2: string log_str;
 }
 
 // These are all data types supported in the graph properties
