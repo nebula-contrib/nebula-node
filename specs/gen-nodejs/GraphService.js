@@ -41,14 +41,14 @@ GraphService_authenticate_args.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.username = input.readBinary();
+        this.username = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.password = input.readBinary();
+        this.password = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -66,12 +66,12 @@ GraphService_authenticate_args.prototype.write = function(output) {
   output.writeStructBegin('GraphService_authenticate_args');
   if (this.username !== null && this.username !== undefined) {
     output.writeFieldBegin('username', Thrift.Type.STRING, 1);
-    output.writeBinary(this.username);
+    output.writeString(this.username);
     output.writeFieldEnd();
   }
   if (this.password !== null && this.password !== undefined) {
     output.writeFieldBegin('password', Thrift.Type.STRING, 2);
-    output.writeBinary(this.password);
+    output.writeString(this.password);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -368,7 +368,7 @@ GraphService_executeWithParameter_args.prototype.read = function(input) {
         for (var _i36 = 0; _i36 < _size34; ++_i36) {
           var key37 = null;
           var val38 = null;
-          key37 = input.readBinary();
+          key37 = input.readString();
           val38 = new common_ttypes.Value();
           val38.read(input);
           this.parameterMap[key37] = val38;
@@ -405,7 +405,7 @@ GraphService_executeWithParameter_args.prototype.write = function(output) {
     for (var kiter39 in this.parameterMap) {
       if (this.parameterMap.hasOwnProperty(kiter39)) {
         var viter40 = this.parameterMap[kiter39];
-        output.writeBinary(kiter39);
+        output.writeString(kiter39);
         viter40.write(output);
       }
     }

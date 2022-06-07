@@ -672,14 +672,14 @@ ExecutionResponse.prototype.read = function(input) {
       break;
       case 4:
       if (ftype == Thrift.Type.STRING) {
-        this.space_name = input.readBinary();
+        this.space_name = input.readString();
       } else {
         input.skip(ftype);
       }
       break;
       case 5:
       if (ftype == Thrift.Type.STRING) {
-        this.error_msg = input.readBinary();
+        this.error_msg = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -694,7 +694,7 @@ ExecutionResponse.prototype.read = function(input) {
       break;
       case 7:
       if (ftype == Thrift.Type.STRING) {
-        this.comment = input.readBinary();
+        this.comment = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -727,12 +727,12 @@ ExecutionResponse.prototype.write = function(output) {
   }
   if (this.space_name !== null && this.space_name !== undefined) {
     output.writeFieldBegin('space_name', Thrift.Type.STRING, 4);
-    output.writeBinary(this.space_name);
+    output.writeString(this.space_name);
     output.writeFieldEnd();
   }
   if (this.error_msg !== null && this.error_msg !== undefined) {
     output.writeFieldBegin('error_msg', Thrift.Type.STRING, 5);
-    output.writeBinary(this.error_msg);
+    output.writeString(this.error_msg);
     output.writeFieldEnd();
   }
   if (this.plan_desc !== null && this.plan_desc !== undefined) {
@@ -742,7 +742,7 @@ ExecutionResponse.prototype.write = function(output) {
   }
   if (this.comment !== null && this.comment !== undefined) {
     output.writeFieldBegin('comment', Thrift.Type.STRING, 7);
-    output.writeBinary(this.comment);
+    output.writeString(this.comment);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -796,7 +796,7 @@ AuthResponse.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.error_msg = input.readBinary();
+        this.error_msg = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -817,7 +817,7 @@ AuthResponse.prototype.read = function(input) {
       break;
       case 5:
       if (ftype == Thrift.Type.STRING) {
-        this.time_zone_name = input.readBinary();
+        this.time_zone_name = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -840,7 +840,7 @@ AuthResponse.prototype.write = function(output) {
   }
   if (this.error_msg !== null && this.error_msg !== undefined) {
     output.writeFieldBegin('error_msg', Thrift.Type.STRING, 2);
-    output.writeBinary(this.error_msg);
+    output.writeString(this.error_msg);
     output.writeFieldEnd();
   }
   if (this.session_id !== null && this.session_id !== undefined) {
@@ -855,7 +855,7 @@ AuthResponse.prototype.write = function(output) {
   }
   if (this.time_zone_name !== null && this.time_zone_name !== undefined) {
     output.writeFieldBegin('time_zone_name', Thrift.Type.STRING, 5);
-    output.writeBinary(this.time_zone_name);
+    output.writeString(this.time_zone_name);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -897,7 +897,7 @@ VerifyClientVersionResp.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.error_msg = input.readBinary();
+        this.error_msg = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -920,7 +920,7 @@ VerifyClientVersionResp.prototype.write = function(output) {
   }
   if (this.error_msg !== null && this.error_msg !== undefined) {
     output.writeFieldBegin('error_msg', Thrift.Type.STRING, 2);
-    output.writeBinary(this.error_msg);
+    output.writeString(this.error_msg);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -951,7 +951,7 @@ VerifyClientVersionReq.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.version = input.readBinary();
+        this.version = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -972,7 +972,7 @@ VerifyClientVersionReq.prototype.write = function(output) {
   output.writeStructBegin('VerifyClientVersionReq');
   if (this.version !== null && this.version !== undefined) {
     output.writeFieldBegin('version', Thrift.Type.STRING, 1);
-    output.writeBinary(this.version);
+    output.writeString(this.version);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
