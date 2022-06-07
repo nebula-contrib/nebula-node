@@ -84,7 +84,7 @@ union Value {
     2: bool                                     bVal;
     3: i64                                      iVal;
     4: double                                   fVal;
-    5: binary                                   sVal;
+    5: string                                   sVal;
     6: Date                                     dVal;
     7: Time                                     tVal;
     8: DateTime                                 dtVal;
@@ -124,7 +124,7 @@ struct Row {
 
 
 struct DataSet {
-    1: list<binary>    column_names;   // Column names
+    1: list<string>    column_names;   // Column names
     2: list<Row>       rows;
 }
 
