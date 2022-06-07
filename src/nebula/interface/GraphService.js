@@ -834,7 +834,8 @@ GraphService_verifyClientVersion_result.prototype.write = function(output) {
   return;
 };
 
-var GraphServiceClient = exports.Client = function(output, pClass) {
+
+function GraphServiceClient(output, pClass) {
   this.output = output;
   this.pClass = pClass;
   this._seqid = 0;
@@ -1247,9 +1248,11 @@ GraphServiceClient.prototype.recv_verifyClientVersion = function(input,mtype,rse
   }
   return callback('verifyClientVersion failed: unknown result');
 };
-var GraphServiceProcessor = exports.Processor = function(handler) {
+
+function GraphServiceProcessor(handler) {
   this._handler = handler;
 };
+
 GraphServiceProcessor.prototype.process = function(input, output) {
   var r = input.readMessageBegin();
   if (this['process_' + r.fname]) {
@@ -1499,3 +1502,6 @@ GraphServiceProcessor.prototype.process_verifyClientVersion = function(seqid, in
     });
   }
 };
+
+exports.Client = GraphServiceClient
+exports.Processor = GraphServiceProcessor

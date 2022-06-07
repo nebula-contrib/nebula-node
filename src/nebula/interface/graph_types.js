@@ -16,8 +16,12 @@ var Int64 = require('node-int64');
 var common_ttypes = require('./common_types');
 
 
+
 var ttypes = module.exports = {};
-var ProfilingStats = module.exports.ProfilingStats = function(args) {
+
+module.exports.ProfilingStats = ProfilingStats
+
+function ProfilingStats(args) {
   this.rows = null;
   this.exec_duration_in_us = null;
   this.total_duration_in_us = null;
@@ -136,7 +140,9 @@ ProfilingStats.prototype.write = function(output) {
   return;
 };
 
-var PlanNodeBranchInfo = module.exports.PlanNodeBranchInfo = function(args) {
+module.exports.PlanNodeBranchInfo = PlanNodeBranchInfo
+
+function PlanNodeBranchInfo(args) {
   this.is_do_branch = null;
   this.condition_node_id = null;
   if (args) {
@@ -203,7 +209,9 @@ PlanNodeBranchInfo.prototype.write = function(output) {
   return;
 };
 
-var Pair = module.exports.Pair = function(args) {
+module.exports.Pair = Pair
+
+function Pair(args) {
   this.key = null;
   this.value = null;
   if (args) {
@@ -270,7 +278,9 @@ Pair.prototype.write = function(output) {
   return;
 };
 
-var PlanNodeDescription = module.exports.PlanNodeDescription = function(args) {
+module.exports.PlanNodeDescription = PlanNodeDescription
+
+function PlanNodeDescription(args) {
   this.name = null;
   this.id = null;
   this.output_var = null;
@@ -467,7 +477,9 @@ PlanNodeDescription.prototype.write = function(output) {
   return;
 };
 
-var PlanDescription = module.exports.PlanDescription = function(args) {
+module.exports.PlanDescription = PlanDescription
+
+function PlanDescription(args) {
   this.plan_node_descs = null;
   this.node_index_map = null;
   this.format = null;
@@ -604,7 +616,9 @@ PlanDescription.prototype.write = function(output) {
   return;
 };
 
-var ExecutionResponse = module.exports.ExecutionResponse = function(args) {
+module.exports.ExecutionResponse = ExecutionResponse
+
+function ExecutionResponse(args) {
   this.error_code = null;
   this.latency_in_us = null;
   this.data = null;
@@ -753,7 +767,9 @@ ExecutionResponse.prototype.write = function(output) {
   return;
 };
 
-var AuthResponse = module.exports.AuthResponse = function(args) {
+module.exports.AuthResponse = AuthResponse
+
+function AuthResponse(args) {
   this.error_code = null;
   this.error_msg = null;
   this.session_id = null;
@@ -866,7 +882,9 @@ AuthResponse.prototype.write = function(output) {
   return;
 };
 
-var VerifyClientVersionResp = module.exports.VerifyClientVersionResp = function(args) {
+module.exports.VerifyClientVersionResp = VerifyClientVersionResp
+
+function VerifyClientVersionResp(args) {
   this.error_code = null;
   this.error_msg = null;
   if (args) {
@@ -931,7 +949,9 @@ VerifyClientVersionResp.prototype.write = function(output) {
   return;
 };
 
-var VerifyClientVersionReq = module.exports.VerifyClientVersionReq = function(args) {
+module.exports.VerifyClientVersionReq = VerifyClientVersionReq
+
+function VerifyClientVersionReq(args) {
   this.version = '3.0.0';
   if (args) {
     if (args.version !== undefined && args.version !== null) {

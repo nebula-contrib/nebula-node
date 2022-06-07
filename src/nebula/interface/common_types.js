@@ -194,7 +194,10 @@ ttypes.ErrorCode = {
   'E_LEADER_LEASE_FAILED' : -3531,
   'E_UNKNOWN' : -8000
 };
-var SchemaID = module.exports.SchemaID = function(args) {
+
+module.exports.SchemaID = SchemaID
+
+function SchemaID(args) {
   this.tag_id = null;
   this.edge_type = null;
   if (args) {
@@ -257,7 +260,9 @@ SchemaID.prototype.write = function(output) {
   return;
 };
 
-var Date = module.exports.Date = function(args) {
+module.exports.Date = Date
+
+function Data(args) {
   this.year = null;
   this.month = null;
   this.day = null;
@@ -336,7 +341,9 @@ Date.prototype.write = function(output) {
   return;
 };
 
-var Time = module.exports.Time = function(args) {
+module.exports.Time = Time
+
+function Time(args) {
   this.hour = null;
   this.minute = null;
   this.sec = null;
@@ -431,7 +438,9 @@ Time.prototype.write = function(output) {
   return;
 };
 
-var DateTime = module.exports.DateTime = function(args) {
+module.exports.DateTime = DateTime
+
+function DateTime(args) {
   this.year = null;
   this.month = null;
   this.day = null;
@@ -574,7 +583,9 @@ DateTime.prototype.write = function(output) {
   return;
 };
 
-var Value = module.exports.Value = function(args) {
+module.exports.Value = Value
+
+function Value(args) {
   this.nVal = null;
   this.bVal = null;
   this.iVal = null;
@@ -889,7 +900,9 @@ Value.prototype.write = function(output) {
   return;
 };
 
-var NList = module.exports.NList = function(args) {
+module.exports.NList = NList
+
+function NList(args) {
   this.values = null;
   if (args) {
     if (args.values !== undefined && args.values !== null) {
@@ -955,7 +968,9 @@ NList.prototype.write = function(output) {
   return;
 };
 
-var NMap = module.exports.NMap = function(args) {
+module.exports.NMap = NMap
+
+function NMap(args) {
   this.kvs = null;
   if (args) {
     if (args.kvs !== undefined && args.kvs !== null) {
@@ -1024,7 +1039,9 @@ NMap.prototype.write = function(output) {
   return;
 };
 
-var NSet = module.exports.NSet = function(args) {
+module.exports.NSet = NSet
+
+function NSet(args) {
   this.values = null;
   if (args) {
     if (args.values !== undefined && args.values !== null) {
@@ -1090,7 +1107,9 @@ NSet.prototype.write = function(output) {
   return;
 };
 
-var Row = module.exports.Row = function(args) {
+module.exports.Row = Row
+
+function Row(args) {
   this.values = null;
   if (args) {
     if (args.values !== undefined && args.values !== null) {
@@ -1156,7 +1175,9 @@ Row.prototype.write = function(output) {
   return;
 };
 
-var DataSet = module.exports.DataSet = function(args) {
+module.exports.DataSet = DataSet
+
+function DataSet(args) {
   this.column_names = null;
   this.rows = null;
   if (args) {
@@ -1250,7 +1271,9 @@ DataSet.prototype.write = function(output) {
   return;
 };
 
-var Coordinate = module.exports.Coordinate = function(args) {
+module.exports.Coordinate = Coordinate
+
+function Coordinate(args) {
   this.x = null;
   this.y = null;
   if (args) {
@@ -1313,7 +1336,9 @@ Coordinate.prototype.write = function(output) {
   return;
 };
 
-var Point = module.exports.Point = function(args) {
+module.exports.Point = Point
+
+function Point(args) {
   this.coord = null;
   if (args) {
     if (args.coord !== undefined && args.coord !== null) {
@@ -1364,7 +1389,9 @@ Point.prototype.write = function(output) {
   return;
 };
 
-var LineString = module.exports.LineString = function(args) {
+module.exports.LineString = LineString
+
+function LineString(args) {
   this.coordList = null;
   if (args) {
     if (args.coordList !== undefined && args.coordList !== null) {
@@ -1430,7 +1457,9 @@ LineString.prototype.write = function(output) {
   return;
 };
 
-var Polygon = module.exports.Polygon = function(args) {
+module.exports.Polygon = Polygon
+
+function Polygon(args) {
   this.coordListList = null;
   if (args) {
     if (args.coordListList !== undefined && args.coordListList !== null) {
@@ -1511,7 +1540,9 @@ Polygon.prototype.write = function(output) {
   return;
 };
 
-var Geography = module.exports.Geography = function(args) {
+module.exports.Geography = Geography
+
+function Geography(args) {
   this.ptVal = null;
   this.lsVal = null;
   this.pgVal = null;
@@ -1593,7 +1624,9 @@ Geography.prototype.write = function(output) {
   return;
 };
 
-var Tag = module.exports.Tag = function(args) {
+module.exports.Tag = Tag
+
+function Tag(args) {
   this.name = null;
   this.props = null;
   if (args) {
@@ -1675,7 +1708,9 @@ Tag.prototype.write = function(output) {
   return;
 };
 
-var Vertex = module.exports.Vertex = function(args) {
+module.exports.Vertex = Vertex
+
+function Vertex(args) {
   this.vid = null;
   this.tags = null;
   if (args) {
@@ -1755,7 +1790,9 @@ Vertex.prototype.write = function(output) {
   return;
 };
 
-var Edge = module.exports.Edge = function(args) {
+module.exports.Edge = Edge
+
+function Edge(args) {
   this.src = null;
   this.dst = null;
   this.type = null;
@@ -1903,7 +1940,9 @@ Edge.prototype.write = function(output) {
   return;
 };
 
-var Step = module.exports.Step = function(args) {
+module.exports.Step = Step
+
+function Step(args) {
   this.dst = null;
   this.type = null;
   this.name = null;
@@ -2034,7 +2073,9 @@ Step.prototype.write = function(output) {
   return;
 };
 
-var Path = module.exports.Path = function(args) {
+module.exports.Path = Path
+
+function Path(args) {
   this.src = null;
   this.steps = null;
   if (args) {
@@ -2114,7 +2155,9 @@ Path.prototype.write = function(output) {
   return;
 };
 
-var HostAddr = module.exports.HostAddr = function(args) {
+module.exports.HostAddr = HostAddr
+
+function HostAddr(args) {
   this.host = null;
   this.port = null;
   if (args) {
@@ -2177,7 +2220,8 @@ HostAddr.prototype.write = function(output) {
   return;
 };
 
-var KeyValue = module.exports.KeyValue = function(args) {
+module.exports.KeyValue = KeyValue
+function KeyValue(args) {
   this.key = null;
   this.value = null;
   if (args) {
@@ -2240,7 +2284,9 @@ KeyValue.prototype.write = function(output) {
   return;
 };
 
-var Duration = module.exports.Duration = function(args) {
+module.exports.Duration = Duration
+
+function Duration(args) {
   this.seconds = null;
   this.microseconds = null;
   this.months = null;
@@ -2319,7 +2365,9 @@ Duration.prototype.write = function(output) {
   return;
 };
 
-var LogInfo = module.exports.LogInfo = function(args) {
+module.exports.LogInfo = LogInfo
+
+function LogInfo(args) {
   this.log_id = null;
   this.term_id = null;
   if (args) {
@@ -2382,7 +2430,9 @@ LogInfo.prototype.write = function(output) {
   return;
 };
 
-var DirInfo = module.exports.DirInfo = function(args) {
+module.exports.DirInfo = DirInfo
+
+function DirInfo(args) {
   this.root = null;
   this.data = null;
   if (args) {
@@ -2460,7 +2510,9 @@ DirInfo.prototype.write = function(output) {
   return;
 };
 
-var CheckpointInfo = module.exports.CheckpointInfo = function(args) {
+module.exports.CheckpointInfo = CheckpointInfo
+
+function CheckpointInfo(args) {
   this.space_id = null;
   this.parts = null;
   this.path = null;
@@ -2558,7 +2610,9 @@ CheckpointInfo.prototype.write = function(output) {
   return;
 };
 
-var LogEntry = module.exports.LogEntry = function(args) {
+module.exports.LogEntry = LogEntry
+
+function LogEntry(args) {
   this.cluster = null;
   this.log_str = null;
   if (args) {
