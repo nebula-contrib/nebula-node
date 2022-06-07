@@ -684,7 +684,7 @@ Value.prototype.read = function(input) {
       break;
       case 5:
       if (ftype == Thrift.Type.STRING) {
-        this.sVal = input.readBinary();
+        this.sVal = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -818,7 +818,7 @@ Value.prototype.write = function(output) {
   }
   if (this.sVal !== null && this.sVal !== undefined) {
     output.writeFieldBegin('sVal', Thrift.Type.STRING, 5);
-    output.writeBinary(this.sVal);
+    output.writeString(this.sVal);
     output.writeFieldEnd();
   }
   if (this.dVal !== null && this.dVal !== undefined) {
@@ -1183,7 +1183,7 @@ DataSet.prototype.read = function(input) {
         var _size22 = _rtmp323.size || 0;
         for (var _i24 = 0; _i24 < _size22; ++_i24) {
           var elem25 = null;
-          elem25 = input.readBinary();
+          elem25 = input.readString();
           this.column_names.push(elem25);
         }
         input.readListEnd();
@@ -1224,7 +1224,7 @@ DataSet.prototype.write = function(output) {
     for (var iter30 in this.column_names) {
       if (this.column_names.hasOwnProperty(iter30)) {
         iter30 = this.column_names[iter30];
-        output.writeBinary(iter30);
+        output.writeString(iter30);
       }
     }
     output.writeListEnd();
