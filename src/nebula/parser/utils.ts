@@ -3,8 +3,8 @@
  * Created by Wu Jian Ping on - 2021/06/10.
  */
 
-import _ from 'lodash'
 import { NebulaValue } from '../types'
+import _ from 'lodash'
 
 const NubulaValueTypeNames = [
   'nVal',
@@ -14,7 +14,10 @@ const NubulaValueTypeNames = [
   'sVal',
   'dVal',
   'tVal',
-  'dtVal'
+  'dtVal',
+  'mVal',
+  'uVal',
+  'gVal'
 ]
 
 
@@ -46,6 +49,18 @@ const isNebulaPathTypeName = (propName: string): boolean => {
   return propName === 'pVal'
 }
 
+const isNebulaNMapTypeName = (propName: string): boolean => {
+  return propName === 'mVal'
+}
+
+const isNebulaNSetTypeName = (propName: string): boolean => {
+  return propName === 'uVal'
+}
+
+const isNebulaNDataSetTypeName = (propName: string): boolean => {
+  return propName === 'gVal'
+}
+
 export default {
   isNebulaValueTypeName,
   isNebulaNListTypeName,
@@ -53,5 +68,8 @@ export default {
   isNebulaEdgeTypeName,
   isNebulaPathTypeName,
   isNebulaValue,
+  isNebulaNMapTypeName,
+  isNebulaNSetTypeName,
+  isNebulaNDataSetTypeName,
   getNebulaValueTypeName
 }

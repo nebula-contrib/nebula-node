@@ -5,10 +5,13 @@
 
 import Int64 from 'node-int64'
 import _ from 'lodash'
+import datasetParser from './dataset'
 import edgeParser from './edge'
 import listParser from './list'
+import mapParser from './map'
 import native from '../../native'
 import pathParser from './path'
+import setParser from './set'
 import utils from './utils'
 import valueParse from './value'
 import vertexParser from './vertex'
@@ -27,6 +30,12 @@ const getNebulaValue = (obj: any): any => {
         return edgeParser(obj, propName)
       } else if (utils.isNebulaPathTypeName(propName)) {
         return pathParser(obj, propName)
+      } else if (utils.isNebulaNMapTypeName(propName)) {
+        return mapParser(obj, propName)
+      } else if (utils.isNebulaNSetTypeName(propName)) {
+        return setParser(obj, propName)
+      } else if (utils.isNebulaNDataSetTypeName(propName)) {
+        return datasetParser(obj, propName)
       } else {
         return {
           [propName]: obj[propName]
