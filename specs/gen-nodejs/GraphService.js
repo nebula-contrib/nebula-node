@@ -41,14 +41,14 @@ GraphService_authenticate_args.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.username = input.readString();
+        this.username = input.readBinary();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.password = input.readString();
+        this.password = input.readBinary();
       } else {
         input.skip(ftype);
       }
@@ -66,12 +66,12 @@ GraphService_authenticate_args.prototype.write = function(output) {
   output.writeStructBegin('GraphService_authenticate_args');
   if (this.username !== null && this.username !== undefined) {
     output.writeFieldBegin('username', Thrift.Type.STRING, 1);
-    output.writeString(this.username);
+    output.writeBinary(this.username);
     output.writeFieldEnd();
   }
   if (this.password !== null && this.password !== undefined) {
     output.writeFieldBegin('password', Thrift.Type.STRING, 2);
-    output.writeString(this.password);
+    output.writeBinary(this.password);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -319,6 +319,155 @@ GraphService_execute_result.prototype.write = function(output) {
   return;
 };
 
+var GraphService_executeWithParameter_args = function(args) {
+  this.sessionId = null;
+  this.stmt = null;
+  this.parameterMap = null;
+  if (args) {
+    if (args.sessionId !== undefined && args.sessionId !== null) {
+      this.sessionId = args.sessionId;
+    }
+    if (args.stmt !== undefined && args.stmt !== null) {
+      this.stmt = args.stmt;
+    }
+    if (args.parameterMap !== undefined && args.parameterMap !== null) {
+      this.parameterMap = Thrift.copyMap(args.parameterMap, [common_ttypes.Value]);
+    }
+  }
+};
+GraphService_executeWithParameter_args.prototype = {};
+GraphService_executeWithParameter_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.sessionId = input.readI64();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.stmt = input.readBinary();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.MAP) {
+        this.parameterMap = {};
+        var _rtmp335 = input.readMapBegin();
+        var _size34 = _rtmp335.size || 0;
+        for (var _i36 = 0; _i36 < _size34; ++_i36) {
+          var key37 = null;
+          var val38 = null;
+          key37 = input.readBinary();
+          val38 = new common_ttypes.Value();
+          val38.read(input);
+          this.parameterMap[key37] = val38;
+        }
+        input.readMapEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+GraphService_executeWithParameter_args.prototype.write = function(output) {
+  output.writeStructBegin('GraphService_executeWithParameter_args');
+  if (this.sessionId !== null && this.sessionId !== undefined) {
+    output.writeFieldBegin('sessionId', Thrift.Type.I64, 1);
+    output.writeI64(this.sessionId);
+    output.writeFieldEnd();
+  }
+  if (this.stmt !== null && this.stmt !== undefined) {
+    output.writeFieldBegin('stmt', Thrift.Type.STRING, 2);
+    output.writeBinary(this.stmt);
+    output.writeFieldEnd();
+  }
+  if (this.parameterMap !== null && this.parameterMap !== undefined) {
+    output.writeFieldBegin('parameterMap', Thrift.Type.MAP, 3);
+    output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRUCT, Thrift.objectLength(this.parameterMap));
+    for (var kiter39 in this.parameterMap) {
+      if (this.parameterMap.hasOwnProperty(kiter39)) {
+        var viter40 = this.parameterMap[kiter39];
+        output.writeBinary(kiter39);
+        viter40.write(output);
+      }
+    }
+    output.writeMapEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var GraphService_executeWithParameter_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ttypes.ExecutionResponse(args.success);
+    }
+  }
+};
+GraphService_executeWithParameter_result.prototype = {};
+GraphService_executeWithParameter_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ttypes.ExecutionResponse();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+GraphService_executeWithParameter_result.prototype.write = function(output) {
+  output.writeStructBegin('GraphService_executeWithParameter_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 var GraphService_executeJson_args = function(args) {
   this.sessionId = null;
   this.stmt = null;
@@ -425,6 +574,256 @@ GraphService_executeJson_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRING, 0);
     output.writeBinary(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var GraphService_executeJsonWithParameter_args = function(args) {
+  this.sessionId = null;
+  this.stmt = null;
+  this.parameterMap = null;
+  if (args) {
+    if (args.sessionId !== undefined && args.sessionId !== null) {
+      this.sessionId = args.sessionId;
+    }
+    if (args.stmt !== undefined && args.stmt !== null) {
+      this.stmt = args.stmt;
+    }
+    if (args.parameterMap !== undefined && args.parameterMap !== null) {
+      this.parameterMap = Thrift.copyMap(args.parameterMap, [common_ttypes.Value]);
+    }
+  }
+};
+GraphService_executeJsonWithParameter_args.prototype = {};
+GraphService_executeJsonWithParameter_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.sessionId = input.readI64();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.stmt = input.readBinary();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.MAP) {
+        this.parameterMap = {};
+        var _rtmp342 = input.readMapBegin();
+        var _size41 = _rtmp342.size || 0;
+        for (var _i43 = 0; _i43 < _size41; ++_i43) {
+          var key44 = null;
+          var val45 = null;
+          key44 = input.readBinary();
+          val45 = new common_ttypes.Value();
+          val45.read(input);
+          this.parameterMap[key44] = val45;
+        }
+        input.readMapEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+GraphService_executeJsonWithParameter_args.prototype.write = function(output) {
+  output.writeStructBegin('GraphService_executeJsonWithParameter_args');
+  if (this.sessionId !== null && this.sessionId !== undefined) {
+    output.writeFieldBegin('sessionId', Thrift.Type.I64, 1);
+    output.writeI64(this.sessionId);
+    output.writeFieldEnd();
+  }
+  if (this.stmt !== null && this.stmt !== undefined) {
+    output.writeFieldBegin('stmt', Thrift.Type.STRING, 2);
+    output.writeBinary(this.stmt);
+    output.writeFieldEnd();
+  }
+  if (this.parameterMap !== null && this.parameterMap !== undefined) {
+    output.writeFieldBegin('parameterMap', Thrift.Type.MAP, 3);
+    output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRUCT, Thrift.objectLength(this.parameterMap));
+    for (var kiter46 in this.parameterMap) {
+      if (this.parameterMap.hasOwnProperty(kiter46)) {
+        var viter47 = this.parameterMap[kiter46];
+        output.writeBinary(kiter46);
+        viter47.write(output);
+      }
+    }
+    output.writeMapEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var GraphService_executeJsonWithParameter_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+GraphService_executeJsonWithParameter_result.prototype = {};
+GraphService_executeJsonWithParameter_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readBinary();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+GraphService_executeJsonWithParameter_result.prototype.write = function(output) {
+  output.writeStructBegin('GraphService_executeJsonWithParameter_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeBinary(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var GraphService_verifyClientVersion_args = function(args) {
+  this.req = null;
+  if (args) {
+    if (args.req !== undefined && args.req !== null) {
+      this.req = new ttypes.VerifyClientVersionReq(args.req);
+    }
+  }
+};
+GraphService_verifyClientVersion_args.prototype = {};
+GraphService_verifyClientVersion_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.req = new ttypes.VerifyClientVersionReq();
+        this.req.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+GraphService_verifyClientVersion_args.prototype.write = function(output) {
+  output.writeStructBegin('GraphService_verifyClientVersion_args');
+  if (this.req !== null && this.req !== undefined) {
+    output.writeFieldBegin('req', Thrift.Type.STRUCT, 1);
+    this.req.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var GraphService_verifyClientVersion_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ttypes.VerifyClientVersionResp(args.success);
+    }
+  }
+};
+GraphService_verifyClientVersion_result.prototype = {};
+GraphService_verifyClientVersion_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ttypes.VerifyClientVersionResp();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+GraphService_verifyClientVersion_result.prototype.write = function(output) {
+  output.writeStructBegin('GraphService_verifyClientVersion_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -605,6 +1004,67 @@ GraphServiceClient.prototype.recv_execute = function(input,mtype,rseqid) {
   return callback('execute failed: unknown result');
 };
 
+GraphServiceClient.prototype.executeWithParameter = function(sessionId, stmt, parameterMap, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_executeWithParameter(sessionId, stmt, parameterMap);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_executeWithParameter(sessionId, stmt, parameterMap);
+  }
+};
+
+GraphServiceClient.prototype.send_executeWithParameter = function(sessionId, stmt, parameterMap) {
+  var output = new this.pClass(this.output);
+  var params = {
+    sessionId: sessionId,
+    stmt: stmt,
+    parameterMap: parameterMap
+  };
+  var args = new GraphService_executeWithParameter_args(params);
+  try {
+    output.writeMessageBegin('executeWithParameter', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+GraphServiceClient.prototype.recv_executeWithParameter = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new GraphService_executeWithParameter_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('executeWithParameter failed: unknown result');
+};
+
 GraphServiceClient.prototype.executeJson = function(sessionId, stmt, callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -663,6 +1123,126 @@ GraphServiceClient.prototype.recv_executeJson = function(input,mtype,rseqid) {
     return callback(null, result.success);
   }
   return callback('executeJson failed: unknown result');
+};
+
+GraphServiceClient.prototype.executeJsonWithParameter = function(sessionId, stmt, parameterMap, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_executeJsonWithParameter(sessionId, stmt, parameterMap);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_executeJsonWithParameter(sessionId, stmt, parameterMap);
+  }
+};
+
+GraphServiceClient.prototype.send_executeJsonWithParameter = function(sessionId, stmt, parameterMap) {
+  var output = new this.pClass(this.output);
+  var params = {
+    sessionId: sessionId,
+    stmt: stmt,
+    parameterMap: parameterMap
+  };
+  var args = new GraphService_executeJsonWithParameter_args(params);
+  try {
+    output.writeMessageBegin('executeJsonWithParameter', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+GraphServiceClient.prototype.recv_executeJsonWithParameter = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new GraphService_executeJsonWithParameter_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('executeJsonWithParameter failed: unknown result');
+};
+
+GraphServiceClient.prototype.verifyClientVersion = function(req, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_verifyClientVersion(req);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_verifyClientVersion(req);
+  }
+};
+
+GraphServiceClient.prototype.send_verifyClientVersion = function(req) {
+  var output = new this.pClass(this.output);
+  var params = {
+    req: req
+  };
+  var args = new GraphService_verifyClientVersion_args(params);
+  try {
+    output.writeMessageBegin('verifyClientVersion', Thrift.MessageType.CALL, this.seqid());
+    args.write(output);
+    output.writeMessageEnd();
+    return this.output.flush();
+  }
+  catch (e) {
+    delete this._reqs[this.seqid()];
+    if (typeof output.reset === 'function') {
+      output.reset();
+    }
+    throw e;
+  }
+};
+
+GraphServiceClient.prototype.recv_verifyClientVersion = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new GraphService_verifyClientVersion_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('verifyClientVersion failed: unknown result');
 };
 var GraphServiceProcessor = exports.Processor = function(handler) {
   this._handler = handler;
@@ -763,6 +1343,45 @@ GraphServiceProcessor.prototype.process_execute = function(seqid, input, output)
     });
   }
 };
+GraphServiceProcessor.prototype.process_executeWithParameter = function(seqid, input, output) {
+  var args = new GraphService_executeWithParameter_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.executeWithParameter.length === 3) {
+    Q.fcall(this._handler.executeWithParameter.bind(this._handler),
+      args.sessionId,
+      args.stmt,
+      args.parameterMap
+    ).then(function(result) {
+      var result_obj = new GraphService_executeWithParameter_result({success: result});
+      output.writeMessageBegin("executeWithParameter", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("executeWithParameter", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.executeWithParameter(args.sessionId, args.stmt, args.parameterMap, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new GraphService_executeWithParameter_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("executeWithParameter", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("executeWithParameter", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
 GraphServiceProcessor.prototype.process_executeJson = function(seqid, input, output) {
   var args = new GraphService_executeJson_args();
   args.read(input);
@@ -794,6 +1413,82 @@ GraphServiceProcessor.prototype.process_executeJson = function(seqid, input, out
       } else {
         result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("executeJson", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+GraphServiceProcessor.prototype.process_executeJsonWithParameter = function(seqid, input, output) {
+  var args = new GraphService_executeJsonWithParameter_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.executeJsonWithParameter.length === 3) {
+    Q.fcall(this._handler.executeJsonWithParameter.bind(this._handler),
+      args.sessionId,
+      args.stmt,
+      args.parameterMap
+    ).then(function(result) {
+      var result_obj = new GraphService_executeJsonWithParameter_result({success: result});
+      output.writeMessageBegin("executeJsonWithParameter", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("executeJsonWithParameter", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.executeJsonWithParameter(args.sessionId, args.stmt, args.parameterMap, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new GraphService_executeJsonWithParameter_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("executeJsonWithParameter", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("executeJsonWithParameter", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+};
+GraphServiceProcessor.prototype.process_verifyClientVersion = function(seqid, input, output) {
+  var args = new GraphService_verifyClientVersion_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.verifyClientVersion.length === 1) {
+    Q.fcall(this._handler.verifyClientVersion.bind(this._handler),
+      args.req
+    ).then(function(result) {
+      var result_obj = new GraphService_verifyClientVersion_result({success: result});
+      output.writeMessageBegin("verifyClientVersion", Thrift.MessageType.REPLY, seqid);
+      result_obj.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    }).catch(function (err) {
+      var result;
+      result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+      output.writeMessageBegin("verifyClientVersion", Thrift.MessageType.EXCEPTION, seqid);
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  } else {
+    this._handler.verifyClientVersion(args.req, function (err, result) {
+      var result_obj;
+      if ((err === null || typeof err === 'undefined')) {
+        result_obj = new GraphService_verifyClientVersion_result((err !== null || typeof err === 'undefined') ? err : {success: result});
+        output.writeMessageBegin("verifyClientVersion", Thrift.MessageType.REPLY, seqid);
+      } else {
+        result_obj = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("verifyClientVersion", Thrift.MessageType.EXCEPTION, seqid);
       }
       result_obj.write(output);
       output.writeMessageEnd();
