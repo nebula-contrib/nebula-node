@@ -1,10 +1,8 @@
 /* vim: ft=proto
  * Copyright (c) 2018 vesoft inc. All rights reserved.
  *
- * This source code is licensed under Apache 2.0 License,
- * attached with Common Clause Condition 1.0, found in the LICENSES directory.
+ * This source code is licensed under Apache 2.0 License.
  */
-
 
 include "common.thrift"
 
@@ -23,7 +21,7 @@ struct ProfilingStats {
     // Total duration spent in an executor, contains schedule time
     3: required i64  total_duration_in_us;
     // Other profiling stats data map
-    4: optional map<binary, binary>  other_stats;
+    4: optional map<binary, binary> other_stats;
 }
 
 // The info used for select/loop.
@@ -35,12 +33,12 @@ struct PlanNodeBranchInfo {
 }
 
 struct Pair {
-    1: required string key;
-    2: required string value;
+    1: required binary key;
+    2: required binary value;
 }
 
 struct PlanNodeDescription {
-    1: required string                          name;
+    1: required binary                          name;
     2: required i64                             id;
     3: required binary                          output_var;
     // other description of an executor
@@ -65,7 +63,7 @@ struct PlanDescription {
 
 struct ExecutionResponse {
     1: required common.ErrorCode        error_code;
-    2: required i32                     latency_in_us;  // Execution time on server
+    2: required i64                     latency_in_us;  // Execution time on server
     3: optional common.DataSet          data;
     4: optional string                  space_name;
     5: optional string                  error_msg;
@@ -78,7 +76,21 @@ struct AuthResponse {
     1: required common.ErrorCode   error_code;
     2: optional string             error_msg;
     3: optional i64                session_id;
+    4: optional i32                time_zone_offset_seconds;
+    5: optional string             time_zone_name;
 }
+
+
+struct VerifyClientVersionResp {
+    1: required common.ErrorCode error_code;
+    2: optional string           error_msg;
+}
+
+
+struct VerifyClientVersionReq {
+    1: required string version = common.version;
+}
+
 
 service GraphService {
     AuthResponse authenticate(1: string username, 2: string password)
@@ -86,7 +98,10 @@ service GraphService {
     oneway void signout(1: i64 sessionId)
 
     ExecutionResponse execute(1: i64 sessionId, 2: binary stmt)
-
+    ExecutionResponse executeWithParameter(1: i64 sessionId, 2: binary stmt, 3: map<string, common.Value> parameterMap)
     // Same as execute(), but response will be a json string
     binary executeJson(1: i64 sessionId, 2: binary stmt)
+    binary executeJsonWithParameter(1: i64 sessionId, 2: binary stmt, 3: map<binary, common.Value> parameterMap)
+    
+    VerifyClientVersionResp verifyClientVersion(1: VerifyClientVersionReq req)
 }

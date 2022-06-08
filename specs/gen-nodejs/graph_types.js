@@ -229,14 +229,14 @@ Pair.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.key = input.readString();
+        this.key = input.readBinary();
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.value = input.readString();
+        this.value = input.readBinary();
       } else {
         input.skip(ftype);
       }
@@ -254,12 +254,12 @@ Pair.prototype.write = function(output) {
   output.writeStructBegin('Pair');
   if (this.key !== null && this.key !== undefined) {
     output.writeFieldBegin('key', Thrift.Type.STRING, 1);
-    output.writeString(this.key);
+    output.writeBinary(this.key);
     output.writeFieldEnd();
   }
   if (this.value !== null && this.value !== undefined) {
     output.writeFieldBegin('value', Thrift.Type.STRING, 2);
-    output.writeString(this.value);
+    output.writeBinary(this.value);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -318,7 +318,7 @@ PlanNodeDescription.prototype.read = function(input) {
     switch (fid) {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.name = input.readString();
+        this.name = input.readBinary();
       } else {
         input.skip(ftype);
       }
@@ -405,7 +405,7 @@ PlanNodeDescription.prototype.write = function(output) {
   output.writeStructBegin('PlanNodeDescription');
   if (this.name !== null && this.name !== undefined) {
     output.writeFieldBegin('name', Thrift.Type.STRING, 1);
-    output.writeString(this.name);
+    output.writeBinary(this.name);
     output.writeFieldEnd();
   }
   if (this.id !== null && this.id !== undefined) {
@@ -656,8 +656,8 @@ ExecutionResponse.prototype.read = function(input) {
       }
       break;
       case 2:
-      if (ftype == Thrift.Type.I32) {
-        this.latency_in_us = input.readI32();
+      if (ftype == Thrift.Type.I64) {
+        this.latency_in_us = input.readI64();
       } else {
         input.skip(ftype);
       }
@@ -716,8 +716,8 @@ ExecutionResponse.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.latency_in_us !== null && this.latency_in_us !== undefined) {
-    output.writeFieldBegin('latency_in_us', Thrift.Type.I32, 2);
-    output.writeI32(this.latency_in_us);
+    output.writeFieldBegin('latency_in_us', Thrift.Type.I64, 2);
+    output.writeI64(this.latency_in_us);
     output.writeFieldEnd();
   }
   if (this.data !== null && this.data !== undefined) {
@@ -754,6 +754,8 @@ var AuthResponse = module.exports.AuthResponse = function(args) {
   this.error_code = null;
   this.error_msg = null;
   this.session_id = null;
+  this.time_zone_offset_seconds = null;
+  this.time_zone_name = null;
   if (args) {
     if (args.error_code !== undefined && args.error_code !== null) {
       this.error_code = args.error_code;
@@ -765,6 +767,12 @@ var AuthResponse = module.exports.AuthResponse = function(args) {
     }
     if (args.session_id !== undefined && args.session_id !== null) {
       this.session_id = args.session_id;
+    }
+    if (args.time_zone_offset_seconds !== undefined && args.time_zone_offset_seconds !== null) {
+      this.time_zone_offset_seconds = args.time_zone_offset_seconds;
+    }
+    if (args.time_zone_name !== undefined && args.time_zone_name !== null) {
+      this.time_zone_name = args.time_zone_name;
     }
   }
 };
@@ -800,6 +808,20 @@ AuthResponse.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 4:
+      if (ftype == Thrift.Type.I32) {
+        this.time_zone_offset_seconds = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.time_zone_name = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -824,6 +846,133 @@ AuthResponse.prototype.write = function(output) {
   if (this.session_id !== null && this.session_id !== undefined) {
     output.writeFieldBegin('session_id', Thrift.Type.I64, 3);
     output.writeI64(this.session_id);
+    output.writeFieldEnd();
+  }
+  if (this.time_zone_offset_seconds !== null && this.time_zone_offset_seconds !== undefined) {
+    output.writeFieldBegin('time_zone_offset_seconds', Thrift.Type.I32, 4);
+    output.writeI32(this.time_zone_offset_seconds);
+    output.writeFieldEnd();
+  }
+  if (this.time_zone_name !== null && this.time_zone_name !== undefined) {
+    output.writeFieldBegin('time_zone_name', Thrift.Type.STRING, 5);
+    output.writeString(this.time_zone_name);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var VerifyClientVersionResp = module.exports.VerifyClientVersionResp = function(args) {
+  this.error_code = null;
+  this.error_msg = null;
+  if (args) {
+    if (args.error_code !== undefined && args.error_code !== null) {
+      this.error_code = args.error_code;
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field error_code is unset!');
+    }
+    if (args.error_msg !== undefined && args.error_msg !== null) {
+      this.error_msg = args.error_msg;
+    }
+  }
+};
+VerifyClientVersionResp.prototype = {};
+VerifyClientVersionResp.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.error_code = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.error_msg = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+VerifyClientVersionResp.prototype.write = function(output) {
+  output.writeStructBegin('VerifyClientVersionResp');
+  if (this.error_code !== null && this.error_code !== undefined) {
+    output.writeFieldBegin('error_code', Thrift.Type.I32, 1);
+    output.writeI32(this.error_code);
+    output.writeFieldEnd();
+  }
+  if (this.error_msg !== null && this.error_msg !== undefined) {
+    output.writeFieldBegin('error_msg', Thrift.Type.STRING, 2);
+    output.writeString(this.error_msg);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var VerifyClientVersionReq = module.exports.VerifyClientVersionReq = function(args) {
+  this.version = '3.0.0';
+  if (args) {
+    if (args.version !== undefined && args.version !== null) {
+      this.version = args.version;
+    } else {
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field version is unset!');
+    }
+  }
+};
+VerifyClientVersionReq.prototype = {};
+VerifyClientVersionReq.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.version = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+VerifyClientVersionReq.prototype.write = function(output) {
+  output.writeStructBegin('VerifyClientVersionReq');
+  if (this.version !== null && this.version !== undefined) {
+    output.writeFieldBegin('version', Thrift.Type.STRING, 1);
+    output.writeString(this.version);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
