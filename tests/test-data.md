@@ -53,13 +53,13 @@ fetch prop on company "c001" yield properties(vertex).name as name;
 fetch prop on invest "p001"->"c001" yield properties(edge);
 ```
 
-9. go from
+3. go from
 
 ```shell
 go from "c001" over employee yield properties($^), properties($$), properties(edge);
 ```
 
-10. find path
+4. find path
 
 ```shell
 find noloop path with prop from "p001" to "p002" over invest, employee bidirect upto 2 steps yield path as p;
