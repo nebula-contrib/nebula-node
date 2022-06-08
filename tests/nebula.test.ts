@@ -28,7 +28,6 @@ describe('nebula', () => {
     const client = createClient(nebulaServer)
     const response1 = await client.execute(commands.cmd1)
 
-
     expect(response1.data?.nodes?.length).greaterThan(0)
     expect(response1.data?.relationships?.length).greaterThan(0)
 

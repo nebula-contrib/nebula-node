@@ -982,7 +982,7 @@ NMap.prototype.read = function(input) {
           for (let _i7 = 0; _i7 < _size5; ++_i7) {
             let key8 = null
             let val9 = null
-            key8 = input.readBinary()
+            key8 = input.readString()
             val9 = new ttypes.Value()
             val9.read(input)
             this.kvs[key8] = val9
@@ -1011,7 +1011,7 @@ NMap.prototype.write = function(output) {
     for (const kiter10 in this.kvs) {
       if (this.kvs.hasOwnProperty(kiter10)) {
         const viter11 = this.kvs[kiter10]
-        output.writeBinary(kiter10)
+        output.writeString(kiter10)
         viter11.write(output)
       }
     }
@@ -1618,7 +1618,7 @@ Tag.prototype.read = function(input) {
     switch (fid) {
       case 1:
         if (ftype == Thrift.Type.STRING) {
-          this.name = input.readBinary()
+          this.name = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -1631,7 +1631,7 @@ Tag.prototype.read = function(input) {
           for (let _i49 = 0; _i49 < _size47; ++_i49) {
             let key50 = null
             let val51 = null
-            key50 = input.readBinary()
+            key50 = input.readString()
             val51 = new ttypes.Value()
             val51.read(input)
             this.props[key50] = val51
@@ -1653,7 +1653,7 @@ Tag.prototype.write = function(output) {
   output.writeStructBegin('Tag')
   if (this.name !== null && this.name !== undefined) {
     output.writeFieldBegin('name', Thrift.Type.STRING, 1)
-    output.writeBinary(this.name)
+    output.writeString(this.name)
     output.writeFieldEnd()
   }
   if (this.props !== null && this.props !== undefined) {
@@ -1662,7 +1662,7 @@ Tag.prototype.write = function(output) {
     for (const kiter52 in this.props) {
       if (this.props.hasOwnProperty(kiter52)) {
         const viter53 = this.props[kiter52]
-        output.writeBinary(kiter52)
+        output.writeString(kiter52)
         viter53.write(output)
       }
     }
@@ -1819,7 +1819,7 @@ Edge.prototype.read = function(input) {
         break
       case 4:
         if (ftype == Thrift.Type.STRING) {
-          this.name = input.readBinary()
+          this.name = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -1839,7 +1839,7 @@ Edge.prototype.read = function(input) {
           for (let _i61 = 0; _i61 < _size59; ++_i61) {
             let key62 = null
             let val63 = null
-            key62 = input.readBinary()
+            key62 = input.readString()
             val63 = new ttypes.Value()
             val63.read(input)
             this.props[key62] = val63
@@ -1876,7 +1876,7 @@ Edge.prototype.write = function(output) {
   }
   if (this.name !== null && this.name !== undefined) {
     output.writeFieldBegin('name', Thrift.Type.STRING, 4)
-    output.writeBinary(this.name)
+    output.writeString(this.name)
     output.writeFieldEnd()
   }
   if (this.ranking !== null && this.ranking !== undefined) {
@@ -1890,7 +1890,7 @@ Edge.prototype.write = function(output) {
     for (const kiter64 in this.props) {
       if (this.props.hasOwnProperty(kiter64)) {
         const viter65 = this.props[kiter64]
-        output.writeBinary(kiter64)
+        output.writeString(kiter64)
         viter65.write(output)
       }
     }
@@ -1955,7 +1955,7 @@ Step.prototype.read = function(input) {
         break
       case 3:
         if (ftype == Thrift.Type.STRING) {
-          this.name = input.readBinary()
+          this.name = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -1975,7 +1975,7 @@ Step.prototype.read = function(input) {
           for (let _i68 = 0; _i68 < _size66; ++_i68) {
             let key69 = null
             let val70 = null
-            key69 = input.readBinary()
+            key69 = input.readString()
             val70 = new ttypes.Value()
             val70.read(input)
             this.props[key69] = val70
@@ -2007,7 +2007,7 @@ Step.prototype.write = function(output) {
   }
   if (this.name !== null && this.name !== undefined) {
     output.writeFieldBegin('name', Thrift.Type.STRING, 3)
-    output.writeBinary(this.name)
+    output.writeString(this.name)
     output.writeFieldEnd()
   }
   if (this.ranking !== null && this.ranking !== undefined) {
@@ -2021,7 +2021,7 @@ Step.prototype.write = function(output) {
     for (const kiter71 in this.props) {
       if (this.props.hasOwnProperty(kiter71)) {
         const viter72 = this.props[kiter71]
-        output.writeBinary(kiter71)
+        output.writeString(kiter71)
         viter72.write(output)
       }
     }
@@ -2202,14 +2202,14 @@ KeyValue.prototype.read = function(input) {
     switch (fid) {
       case 1:
         if (ftype == Thrift.Type.STRING) {
-          this.key = input.readBinary()
+          this.key = input.readString()
         } else {
           input.skip(ftype)
         }
         break
       case 2:
         if (ftype == Thrift.Type.STRING) {
-          this.value = input.readBinary()
+          this.value = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -2226,12 +2226,12 @@ KeyValue.prototype.write = function(output) {
   output.writeStructBegin('KeyValue')
   if (this.key !== null && this.key !== undefined) {
     output.writeFieldBegin('key', Thrift.Type.STRING, 1)
-    output.writeBinary(this.key)
+    output.writeString(this.key)
     output.writeFieldEnd()
   }
   if (this.value !== null && this.value !== undefined) {
     output.writeFieldBegin('value', Thrift.Type.STRING, 2)
-    output.writeBinary(this.value)
+    output.writeString(this.value)
     output.writeFieldEnd()
   }
   output.writeFieldStop()
@@ -2407,7 +2407,7 @@ DirInfo.prototype.read = function(input) {
     switch (fid) {
       case 1:
         if (ftype == Thrift.Type.STRING) {
-          this.root = input.readBinary()
+          this.root = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -2419,7 +2419,7 @@ DirInfo.prototype.read = function(input) {
           const _size78 = _rtmp379.size || 0
           for (let _i80 = 0; _i80 < _size78; ++_i80) {
             let elem81 = null
-            elem81 = input.readBinary()
+            elem81 = input.readString()
             this.data.push(elem81)
           }
           input.readListEnd()
@@ -2439,7 +2439,7 @@ DirInfo.prototype.write = function(output) {
   output.writeStructBegin('DirInfo')
   if (this.root !== null && this.root !== undefined) {
     output.writeFieldBegin('root', Thrift.Type.STRING, 1)
-    output.writeBinary(this.root)
+    output.writeString(this.root)
     output.writeFieldEnd()
   }
   if (this.data !== null && this.data !== undefined) {
@@ -2448,7 +2448,7 @@ DirInfo.prototype.write = function(output) {
     for (let iter82 in this.data) {
       if (this.data.hasOwnProperty(iter82)) {
         iter82 = this.data[iter82]
-        output.writeBinary(iter82)
+        output.writeString(iter82)
       }
     }
     output.writeListEnd()
@@ -2514,7 +2514,7 @@ CheckpointInfo.prototype.read = function(input) {
         break
       case 3:
         if (ftype == Thrift.Type.STRING) {
-          this.path = input.readBinary()
+          this.path = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -2549,7 +2549,7 @@ CheckpointInfo.prototype.write = function(output) {
   }
   if (this.path !== null && this.path !== undefined) {
     output.writeFieldBegin('path', Thrift.Type.STRING, 3)
-    output.writeBinary(this.path)
+    output.writeString(this.path)
     output.writeFieldEnd()
   }
   output.writeFieldStop()
@@ -2590,7 +2590,7 @@ LogEntry.prototype.read = function(input) {
         break
       case 2:
         if (ftype == Thrift.Type.STRING) {
-          this.log_str = input.readBinary()
+          this.log_str = input.readString()
         } else {
           input.skip(ftype)
         }
@@ -2612,7 +2612,7 @@ LogEntry.prototype.write = function(output) {
   }
   if (this.log_str !== null && this.log_str !== undefined) {
     output.writeFieldBegin('log_str', Thrift.Type.STRING, 2)
-    output.writeBinary(this.log_str)
+    output.writeString(this.log_str)
     output.writeFieldEnd()
   }
   output.writeFieldStop()

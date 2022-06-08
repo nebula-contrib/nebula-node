@@ -1216,6 +1216,7 @@ exports.Processor = GraphServiceProcessor
 function GraphServiceProcessor(handler) {
   this._handler = handler
 }
+
 GraphServiceProcessor.prototype.process = function(input, output) {
   const r = input.readMessageBegin()
   if (this['process_' + r.fname]) {
