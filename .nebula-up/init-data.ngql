@@ -1,0 +1,6 @@
+use nebula_node;
+insert vertex company(name) VALUES "c001":("company - 1");
+insert vertex person(name,age) VALUES "p001":("person - 1", 30);
+insert vertex person(name,age) VALUES "p002":("person - 2", 20);
+insert edge invest(percent) VALUES "p001"->"c001":(0.8);
+insert edge employee(years) VALUES "c001"->"p002":(2);

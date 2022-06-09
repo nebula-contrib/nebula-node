@@ -1,0 +1,5 @@
+use nebula_node;
+create tag company(name string);
+create tag person(name string, age int);
+create edge invest(percent float);
+create edge employee(years int);
