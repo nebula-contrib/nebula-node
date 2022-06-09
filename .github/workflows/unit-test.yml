@@ -1,7 +1,7 @@
 name: Unit Test
 on: [push]
 jobs:
-  Unit-Test-Actions:
+  unit-test:
     runs-on: ubuntu-latest
 
     strategy:
