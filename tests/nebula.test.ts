@@ -8,7 +8,7 @@ import createClient, { ClientOption } from '../dist'
 import { expect } from 'chai'
 
 const nebulaServer: ClientOption = {
-  servers: ['10.0.5.10:9669'],
+  servers: ['127.0.0.1:9669'],
   userName: 'root',
   password: 'nebula',
   space: 'nebula_node',
