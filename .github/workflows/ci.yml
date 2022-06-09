@@ -1,4 +1,4 @@
-name: Nebula CI
+name: Unit Test
 on: [push]
 jobs:
   Nebula-CI-Actions:
@@ -9,13 +9,6 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - name: Show ENV
-        run: |
-          export
-          echo $PWD
-          docker -v
-          docker-compose -v
-
       - name: Check out repository code
         uses: actions/checkout@v3
 
