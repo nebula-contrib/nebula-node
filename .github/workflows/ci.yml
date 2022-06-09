@@ -35,7 +35,7 @@ jobs:
           ./console.sh -f /root/init-data.ngql
           cd ..
  
-      - name: Test
+      - name: Unit Test
         run: |
           npm install --unsafe-perm
           npm run coverage
