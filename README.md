@@ -203,6 +203,7 @@ Not implemented data type for auto parser
 
 ## Released Versions in npmjs.com
 
-| NodeJS Client Version | Nebula Graph Version |
+| NodeJS Client Version | Nebula Graph Version  |
 | --------------------- | --------------------- |
-| 2.6.1                 | 2.6.x                 |
+| 2.6.2                 | 2.6.x                 |
+| 3.0.0                 | 3.0.x 3.1.x           |

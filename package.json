@@ -1,6 +1,6 @@
 {
   "name": "@nebula-contrib/nebula-nodejs",
-  "version": "2.6.2",
+  "version": "3.0.0",
   "description": "This repository provides Nebula client API in Nodejs.",
   "main": "index.js",
   "scripts": {
