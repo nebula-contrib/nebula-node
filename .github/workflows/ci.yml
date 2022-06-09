@@ -38,5 +38,4 @@ jobs:
       - name: Test
         run: |
           npm install --unsafe-perm
-          npm run build
-          npm run test
+          npm run coverage
