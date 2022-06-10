@@ -44,7 +44,7 @@ jobs:
 
       - name: Build
         run: |
-          npm install --verbose
+          npm install --unsafe-perm
           npm run build
           
       - name: Unit Test
