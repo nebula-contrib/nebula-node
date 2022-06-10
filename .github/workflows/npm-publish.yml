@@ -41,6 +41,7 @@ jobs:
           ./console.sh -f /root/init-data.ngql
           cd ..
 
+      - run: npm install --unsafe-perm
       - run: npm run build
       - run: npm run test
 
@@ -49,10 +50,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
+
+      - run: npm install --unsafe-perm
       - run: npm run build
       - run: cd dist && npm publish
         env:
