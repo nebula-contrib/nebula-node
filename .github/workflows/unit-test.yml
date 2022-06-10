@@ -1,0 +1,41 @@
+name: Unit Test
+on: [push]
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Startup Nebula
+        run: |
+          cd ./.nebula-up
+          rm -rf ./data ./log
+          docker-compose up -d
+          echo "Sleep 20s for waiting nebula cluster"
+          sleep 20
+          ./check.sh
+          echo "Create space nebula_node"
+          ./console.sh -e "create space nebula_node(vid_type = FIXED_STRING(30));"
+          echo "Sleep 10s for space creating"
+          sleep 10
+          ./console.sh -f /root/init-create.ngql
+          echo "Sleep 30s for schema creating"
+          sleep 30
+          ./console.sh -f /root/init-data.ngql
+          cd ..
+ 
+      - name: Unit Test
+        run: |
+          npm install --unsafe-perm
+          npm run coverage

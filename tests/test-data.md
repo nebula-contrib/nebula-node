@@ -1,6 +1,6 @@
-# nebula
+# Nebula
 
-## prepare data
+## Prepare data
 
 1. create space
 

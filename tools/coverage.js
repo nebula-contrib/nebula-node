@@ -2,13 +2,14 @@
  * Created by Wu Jian Ping on - 2021/03/04.
  */
 
-import { runNpmCli, getModuleDir, getModuleTempDir, getModuleDistDir, getConverageTsConfigFile, cowsay2, getModuleSourceDir } from './libs/utils'
-import { makeDir, copyFile, cleanDir, copyDir } from './libs/fs'
-import path from 'path'
-import glob from 'glob'
-import open from 'open'
-import run from './run'
+import { cleanDir, copyDir, copyFile, makeDir } from './libs/fs'
+import { cowsay2, getConverageTsConfigFile, getModuleDir, getModuleDistDir, getModuleSourceDir, getModuleTempDir, runNpmCli } from './libs/utils'
+
 import build from './build'
+import glob from 'glob'
+// import open from 'open'
+import path from 'path'
+import run from './run'
 
 const cleanNYC = async () => {
   await cleanDir('./coverage', {
@@ -59,7 +60,7 @@ const coverage = {
 
     await runNpmCli('nyc', ['report'])
 
-    open(path.join(process.cwd(), 'coverage', 'index.html'))
+    // open(path.join(process.cwd(), 'coverage', 'index.html'))
 
     return Promise.resolve()
   }
