@@ -8,7 +8,7 @@ on:
     types: [created]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,6 +22,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
 
       - name: Startup Nebula
         run: |
@@ -41,19 +42,18 @@ jobs:
           ./console.sh -f /root/init-data.ngql
           cd ..
 
-      - run: npm run build
-      - run: npm run test
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          registry-url: https://registry.npmjs.org/
-      - run: npm run build
-      - run: cd dist && npm publish
+      - name: Build
+        run: |
+          npm install --unsafe-perm
+          npm run build
+          
+      - name: Unit Test
+        run: |
+          npm run test
+      
+      - name: Publish NPM
+        run: |
+          cd dist
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
