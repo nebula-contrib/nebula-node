@@ -1,10 +1,10 @@
 {
   "name": "@nebula-contrib/nebula-nodejs",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "This repository provides Nebula client API in Nodejs.",
   "main": "index.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production babel-node --max-old-space-size=7168 ./tools/run build",
+    "build": "NODE_ENV=production babel-node --max-old-space-size=7168 ./tools/run build",
     "clean": "babel-node ./tools/run clean",
     "test": "babel-node ./tools/run test",
     "lint": "eslint",
@@ -70,7 +70,6 @@
     "chalk": "^4.1.1",
     "core-js": "^2.6.10",
     "cowsay": "^1.5.0",
-    "cross-env": "^7.0.3",
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-semistandard": "^15.0.1",

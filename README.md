@@ -206,4 +206,4 @@ Not implemented data type for auto parser
 | NodeJS Client Version | Nebula Graph Version  |
 | --------------------- | --------------------- |
 | [2.6.2](https://www.npmjs.com/package/@nebula-contrib/nebula-nodejs/v/2.6.2)                 | 2.6.x                 |
-| [3.0.0](https://www.npmjs.com/package/@nebula-contrib/nebula-nodejs/v/3.0.0)                 | 3.0.x 3.1.x           |
+| [3.0.1](https://www.npmjs.com/package/@nebula-contrib/nebula-nodejs/v/3.0.1)                 | 3.0.x 3.1.x           |
