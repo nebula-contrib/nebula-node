@@ -197,9 +197,9 @@ Not implemented data type for auto parser
 
 | Data Type | property name in nebula response |
 | --------- | -------------------------------- |
-| NMap      | mVal                             |
-| NSet      | uVal                             |
 | DataSet   | gVal                             |
+| Geography | ggVal                            |
+| Duration  | duVal                            |
 
 ## Released Versions in npmjs.com
 
