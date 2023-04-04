@@ -20,7 +20,9 @@ const commands = {
   cmd1: 'get subgraph with prop 2 steps from "p001" yield vertices as nodes, edges as relationships',
   cmd2: 'fetch prop on company "c001" yield properties(vertex) as node',
   cmd3: 'go from "c001" over employee yield properties($^) as a, properties($$) as b, properties(edge) as p',
-  cmd4: 'find noloop path with prop from "p001" to "p002" over * yield path as p'
+  cmd4: 'find noloop path with prop from "p001" to "p002" over * yield path as p',
+  cmd5: 'RETURN list[1, 2, 3] AS a',
+  cmd6: 'UNWIND list[list[1, 2, 3], list[2, 3, 4]] as a RETURN a'
 }
 
 describe('nebula', () => {
@@ -66,9 +68,27 @@ describe('nebula', () => {
     await client.close()
   })
 
+  it('test-case-5-list', async () => {
+    const client = createClient(nebulaServer)
+
+    const response1 = await client.execute(commands.cmd5)
+
+    expect(response1.data?.a).deep.equal([[1, 2, 3]])
+
+    await client.close()
+  })
+
+  it('test-case-6-list', async () => {
+    const client = createClient(nebulaServer)
+
+    const response1 = await client.execute(commands.cmd6)
+
+    expect(response1.data?.a).deep.equal([[1, 2, 3], [2, 3, 4]])
+
+    await client.close()
+  })
+
   after(async () => {
     process.exit()
   })
 })
-
-
