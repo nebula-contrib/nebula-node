@@ -103,7 +103,7 @@ const traverse = (obj: any): any => {
 
     _.forEach(rows, row => {
       _.forEach(columns, (c, i) => {
-        entity[c] = _.concat(entity[c], row.values[i])
+        entity[c].push(row.values[i])
       })
     })
 

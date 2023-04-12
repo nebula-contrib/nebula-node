@@ -5,5 +5,5 @@
  */
 
 export default (obj: any, propName: string): any => {
-  return obj[propName]
+  return obj[propName].values || []
 }

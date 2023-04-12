@@ -6,7 +6,7 @@
 import { NebulaValue } from '../types'
 import _ from 'lodash'
 
-const NubulaValueTypeNames = [
+const NebulaValueTypeNames = [
   'nVal',
   'bVal',
   'iVal',
@@ -15,8 +15,6 @@ const NubulaValueTypeNames = [
   'dVal',
   'tVal',
   'dtVal',
-  'mVal',
-  'uVal',
   'gVal'
 ]
 
@@ -30,7 +28,7 @@ const isNebulaValue = (obj: any): boolean => {
 }
 
 const isNebulaValueTypeName = (propName: string): boolean => {
-  return _.includes(NubulaValueTypeNames, propName)
+  return _.includes(NebulaValueTypeNames, propName)
 }
 
 const isNebulaNListTypeName = (propName: string): boolean => {
