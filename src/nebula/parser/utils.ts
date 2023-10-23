@@ -3,10 +3,22 @@
  * Created by Wu Jian Ping on - 2021/06/10.
  */
 
-import { NebulaValue } from '../types'
-import _ from 'lodash'
+import Int64 from 'node-int64';
+import { bytesToLongLongString } from '../../native';
+import { NebulaValue } from '../types';
 
-const NebulaValueTypeNames = [
+/**
+ * - nVal: NullType
+ * - bVal: bool
+ * - iVal: i64
+ * - fVal: double
+ * - sVal: string
+ * - dVal: Date
+ * - tVal: Time
+ * - dtVal: DateTime
+ * - gVal: DataSet
+ */
+const NebulaValueTypeNameSet = new Set([
   'nVal',
   'bVal',
   'iVal',
@@ -15,59 +27,71 @@ const NebulaValueTypeNames = [
   'dVal',
   'tVal',
   'dtVal',
-  'gVal'
-]
+  'gVal',
+]);
 
+export const getNebulaValueTypeName = (obj: NebulaValue): string => {
+  return Object.entries(obj).find(([, v]) => v !== null)?.[0];
+};
 
-const getNebulaValueTypeName = (obj: NebulaValue): string => {
-  return _.chain(obj).keys().filter(k => obj[k] !== null).first().value()
-}
+export const isNebulaValue = (obj: any): boolean => {
+  return obj?.nVal !== undefined;
+};
 
-const isNebulaValue = (obj: any): boolean => {
-  return obj && obj.nVal !== undefined
-}
+const valueParser = (obj: NebulaValue, prop: string) => {
+  // for i64
+  const v = obj[prop];
+  if (!(v instanceof Int64)) {
+    return v;
+  }
+  if (isFinite(v.valueOf())) {
+    return +v.toString();
+  }
+  if (v.buffer) {
+    return bytesToLongLongString(v.buffer as any);
+  }
+  return v.toOctetString();
+};
 
-const isNebulaValueTypeName = (propName: string): boolean => {
-  return _.includes(NebulaValueTypeNames, propName)
-}
-
-const isNebulaNListTypeName = (propName: string): boolean => {
-  return propName === 'lVal'
-}
-
-const isNebulaVertexTypeName = (propName: string): boolean => {
-  return propName === 'vVal'
-}
-
-const isNebulaEdgeTypeName = (propName: string): boolean => {
-  return propName === 'eVal'
-}
-
-const isNebulaPathTypeName = (propName: string): boolean => {
-  return propName === 'pVal'
-}
-
-const isNebulaNMapTypeName = (propName: string): boolean => {
-  return propName === 'mVal'
-}
-
-const isNebulaNSetTypeName = (propName: string): boolean => {
-  return propName === 'uVal'
-}
-
-const isNebulaNDataSetTypeName = (propName: string): boolean => {
-  return propName === 'gVal'
-}
-
-export default {
-  isNebulaValueTypeName,
-  isNebulaNListTypeName,
-  isNebulaVertexTypeName,
-  isNebulaEdgeTypeName,
-  isNebulaPathTypeName,
-  isNebulaValue,
-  isNebulaNMapTypeName,
-  isNebulaNSetTypeName,
-  isNebulaNDataSetTypeName,
-  getNebulaValueTypeName
-}
+export const NebulaDataParserList = [
+  {
+    name: 'NebulaValue',
+    match: (prop: string) => NebulaValueTypeNameSet.has(prop),
+    parse: valueParser,
+  },
+  {
+    name: 'NebulaNList',
+    match: (prop: string) => prop === 'lVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop].values || [],
+  },
+  {
+    name: 'NebulaVertex',
+    match: (prop: string) => prop === 'vVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop],
+  },
+  {
+    name: 'NebulaEdge',
+    match: (prop: string) => prop === 'eVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop],
+  },
+  {
+    name: 'NebulaPath',
+    match: (prop: string) => prop === 'pVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop],
+  },
+  {
+    name: 'NebulaNMap',
+    match: (prop: string) => prop === 'mVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop].kvs || {},
+  },
+  {
+    name: 'NebulaNSet',
+    match: (prop: string) => prop === 'uVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop].values || [],
+  },
+  {
+    name: 'NebulaNDataSet',
+    match: (prop: string) => prop === 'gVal',
+    parse: (obj: NebulaValue, prop: string) => obj[prop],
+  },
+];

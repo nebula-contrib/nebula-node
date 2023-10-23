@@ -5,7 +5,7 @@
 import Client from './Client'
 import Connection from './Connection'
 import { ConnectionOption, ClientOption } from './types'
-import parser from './parser'
+import * as parser from './parser'
 
 const createClient = (option: ClientOption): Client => new Client(option)
 

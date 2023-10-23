@@ -1,96 +1,99 @@
-/**
- * Created by Wu Jian Ping on - 2021/06/15.
- */
-
-#include <node.h>
+#include <napi.h>
 #include "./MurmurHash3.h"
 
-namespace addon
+Napi::Value BytesToLongLongString(const Napi::CallbackInfo &info)
 {
-  using v8::Array;
-  using v8::Context;
-  using v8::Exception;
-  using v8::Function;
-  using v8::FunctionCallbackInfo;
-  using v8::Integer;
-  using v8::Isolate;
-  using v8::Local;
-  using v8::Null;
-  using v8::Number;
-  using v8::Object;
-  using v8::String;
-  using v8::Undefined;
-  using v8::Value;
+  Napi::Env env = info.Env();
 
-  void BytesToLongLongString(const FunctionCallbackInfo<Value> &args)
+  if (info.Length() != 1)
   {
-    Isolate *isolate = args.GetIsolate();
-
-    unsigned char b0 = args[0].As<Number>()->Value();
-    unsigned char b1 = args[1].As<Number>()->Value();
-    unsigned char b2 = args[2].As<Number>()->Value();
-    unsigned char b3 = args[3].As<Number>()->Value();
-    unsigned char b4 = args[4].As<Number>()->Value();
-    unsigned char b5 = args[5].As<Number>()->Value();
-    unsigned char b6 = args[6].As<Number>()->Value();
-    unsigned char b7 = args[7].As<Number>()->Value();
-
-    unsigned char chars[8] = {b0, b1, b2, b3, b4, b5, b6, b7};
-
-    long long value = *(((long long *)chars));
-
-    // printf("v: %lld\n", value);
-
-    // long long range: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
-    char str[24];
-    sprintf(str, "%lld", value);
-
-    args.GetReturnValue().Set(String::NewFromUtf8(
-                                  isolate, str)
-                                  .ToLocalChecked());
+    Napi::TypeError::New(env, "Wrong number of arguments")
+        .ThrowAsJavaScriptException();
+    return env.Null();
   }
 
-  void Hash64(const FunctionCallbackInfo<Value> &args)
+  if (!info[0].IsArray())
   {
-    Isolate *isolate = args.GetIsolate();
-    Local<Context> context = isolate->GetCurrentContext();
-
-    long long out[2];
-
-    Local<String> key = Local<String>::Cast(args[0]);
-
-    v8::String::Utf8Value str(isolate, key);
-
-    char *c_str = *str;
-    int length = strlen(c_str);
-
-    MurmurHash3_x64_128((void *)c_str, length, 0, &out);
-
-    // long long range: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
-    char str0[24];
-    char str1[24];
-
-    sprintf(str0, "%lld", out[0]);
-    sprintf(str1, "%lld", out[1]);
-
-    Local<Array> array = Array::New(isolate, 2);
-    array->Set(context, Integer::New(isolate, 0), String::NewFromUtf8(isolate, str0).ToLocalChecked());
-    array->Set(context, Integer::New(isolate, 1), String::NewFromUtf8(isolate, str1).ToLocalChecked());
-    args.GetReturnValue().Set(array);
+    Napi::TypeError::New(env, "Wrong arguments type").ThrowAsJavaScriptException();
+    return env.Null();
   }
 
-  // setup exports
-  void Init(Local<Object> exports)
+  Napi::Array arr = info[0].As<Napi::Array>();
+  if (arr.Length() != 8)
   {
-    NODE_SET_METHOD(exports, "bytesToLongLongString", BytesToLongLongString);
-    NODE_SET_METHOD(exports, "hash64", Hash64);
+    Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+    return env.Null();
   }
 
-  // init module
-  // 下面这种方式在worker里面报Module did not self-register错误
-  // NODE_MODULE(NODE_GYP_MODULE_NAME, Init)
-  NODE_MODULE_INIT()
+  unsigned char chars[8];
+  for (unsigned int i = 0; i < 8; i++)
   {
-    Init(exports);
+    if (!arr.Get(i).IsNumber())
+    {
+      Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+      return env.Null();
+    }
+    chars[i] = arr.Get(i).As<Napi::Number>().Uint32Value();
   }
+
+  long long value = *(((long long *)chars));
+
+  // printf("v: %lld\n", value);
+
+  // long long range: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+  char str[24];
+  sprintf(str, "%lld", value);
+
+  return Napi::String::New(env, str);
 }
+
+Napi::Value Hash64(const Napi::CallbackInfo &info)
+{
+  Napi::Env env = info.Env();
+
+  if (info.Length() != 1)
+  {
+    Napi::TypeError::New(env, "Wrong number of arguments")
+        .ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  if (!info[0].IsString())
+  {
+    Napi::TypeError::New(env, "Wrong arguments type").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  Napi::String key = info[0].As<Napi::String>();
+
+  long long out[2];
+  
+  const std::string str = key.Utf8Value();
+  int length = str.length();
+
+  MurmurHash3_x64_128((void *)str.c_str(), length, 0, &out);
+
+  // long long range: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+  char str0[24];
+  char str1[24];
+
+  sprintf(str0, "%lld", out[0]);
+  sprintf(str1, "%lld", out[1]);
+
+  Napi::Array array = Napi::Array::New(env, 2);
+
+  array.Set((uint32_t)0, Napi::String::New(env, str0));
+  array.Set((uint32_t)1, Napi::String::New(env, str1));
+
+  return array;
+}
+
+Napi::Object Init(Napi::Env env, Napi::Object exports)
+{
+  // exports.Set(Napi::String::New(env, "add"), Napi::Function::New(env, Add));
+  exports.Set(Napi::String::New(env, "bytesToLongLongString"), Napi::Function::New(env, BytesToLongLongString));
+  exports.Set(Napi::String::New(env, "hash64"), Napi::Function::New(env, Hash64));
+  return exports;
+}
+
+NODE_API_MODULE(addon, Init)

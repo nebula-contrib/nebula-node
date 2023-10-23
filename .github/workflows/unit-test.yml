@@ -6,7 +6,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
 
     steps:
       - name: Check out repository code
@@ -38,4 +38,4 @@ jobs:
       - name: Unit Test
         run: |
           npm install --unsafe-perm
-          npm run coverage
+          npm run test

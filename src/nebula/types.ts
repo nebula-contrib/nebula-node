@@ -4,7 +4,7 @@
 
 import { AsyncResource } from 'async_hooks'
 
-interface ConnectionOption {
+export interface ConnectionOption {
   host: string;
   port: number;
   userName: string;
@@ -12,12 +12,12 @@ interface ConnectionOption {
   space: string;
 }
 
-interface Endpoint {
+export interface Endpoint {
   host: string;
   port: number
 }
 
-interface ClientOption {
+export interface ClientOption {
   // nebula服务器列表
   servers: string[] | Endpoint[];
   // 用户名
@@ -36,7 +36,7 @@ interface ClientOption {
   pingInterval?: number;
 }
 
-interface ConnectionInfo {
+export interface ConnectionInfo {
   connectionId: string;
   host: string;
   port: number;
@@ -44,7 +44,27 @@ interface ConnectionInfo {
   isReady: boolean;
 }
 
-interface NebulaValue {
+
+/**
+ * - nVal: NullType
+ * - bVal: bool
+ * - iVal: i64
+ * - fVal: double
+ * - sVal: string
+ * - dVal: Date
+ * - tVal: Time
+ * - dtVal: DateTime
+ * - vVal: Vertex
+ * - eVal: Edge
+ * - pVal: Path
+ * - lVal: NList
+ * - mVal: NMap
+ * - uVal: NSet
+ * - gVal: DataSet
+ * - ggVal: Geography
+ * - duVal: Duration
+ */
+export interface NebulaValue {
   nVal: any;
   bVal: any;
   iVal: any;
@@ -63,26 +83,16 @@ interface NebulaValue {
   uVal: any;
   gVal: any;
 }
-interface Metrics {
+export interface Metrics {
   execute: number;
   traverse: number;
 }
 
-interface Task {
+export interface Task {
   command: string;
   returnOriginalData: boolean;
   resolve: (value: any) => void;
   reject: (err: any) => void;
   asyncResource?: AsyncResource;
   executingTimer?: NodeJS.Timeout;
-}
-
-export {
-  Endpoint,
-  ClientOption,
-  ConnectionOption,
-  NebulaValue,
-  Metrics,
-  Task,
-  ConnectionInfo
 }
