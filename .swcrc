@@ -13,8 +13,11 @@
   },
   "env": {
     "targets": {
-      "node": "18"
-    }
+      "node": "17"
+    },
+    "mode": "usage",
+    "coreJs": "3.33.1",
+    "include": ["esnext.symbol.dispose", "esnext.symbol.async-dispose"]
   },
   "module": {
     "type": "commonjs"

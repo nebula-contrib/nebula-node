@@ -28,6 +28,7 @@
     "@swc/helpers": "^0.5.3",
     "bindings": "^1.5.0",
     "browser-or-node": "^1.2.1",
+    "core-js": "^3.33.1",
     "isomorphic-ws": "^4.0.1",
     "lodash": "^4.17.21",
     "node-addon-api": "^7.0.0",
@@ -41,7 +42,7 @@
     "nodejs nebula sdk"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=17.0.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-babel": "^3.0.0",
@@ -63,7 +64,6 @@
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "chalk": "^4.1.2",
-    "core-js": "^2.6.10",
     "cowsay": "^1.5.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.28.0",
