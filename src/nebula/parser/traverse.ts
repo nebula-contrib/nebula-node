@@ -3,118 +3,93 @@
  * Created by Wu Jian Ping on - 2021/06/09.
  */
 
-import Int64 from 'node-int64'
-import _ from 'lodash'
-import datasetParser from './dataset'
-import edgeParser from './edge'
-import listParser from './list'
-import mapParser from './map'
-import native from '../../native'
-import pathParser from './path'
-import setParser from './set'
-import utils from './utils'
-import valueParse from './value'
-import vertexParser from './vertex'
+import Int64 from 'node-int64';
+import _ from 'lodash';
+import {
+  getNebulaValueTypeName,
+  isNebulaValue,
+  NebulaDataParserList,
+} from './utils';
+import * as native from '../../native';
 
 const getNebulaValue = (obj: any): any => {
-  if (utils.isNebulaValue(obj)) {
-    const propName = utils.getNebulaValueTypeName(obj)
-    if (propName) {
-      if (utils.isNebulaValueTypeName(propName)) {
-        return valueParse(obj, propName)
-      } else if (utils.isNebulaNListTypeName(propName)) {
-        return listParser(obj, propName)
-      } else if (utils.isNebulaVertexTypeName(propName)) {
-        return vertexParser(obj, propName)
-      } else if (utils.isNebulaEdgeTypeName(propName)) {
-        return edgeParser(obj, propName)
-      } else if (utils.isNebulaPathTypeName(propName)) {
-        return pathParser(obj, propName)
-      } else if (utils.isNebulaNMapTypeName(propName)) {
-        return mapParser(obj, propName)
-      } else if (utils.isNebulaNSetTypeName(propName)) {
-        return setParser(obj, propName)
-      } else if (utils.isNebulaNDataSetTypeName(propName)) {
-        return datasetParser(obj, propName)
-      } else {
-        return {
-          [propName]: obj[propName]
-        }
-      }
-    }
-    return null
+  if (!isNebulaValue(obj)) {
+    return obj;
   }
-  return obj
-}
+
+  const propName = getNebulaValueTypeName(obj);
+  const parser = NebulaDataParserList.find((parser) => parser.match(propName));
+  return parser ? parser.parse(obj, propName) : null;
+};
 
 const convert = (entity: any): any => {
   if (_.isFunction(entity)) {
-    return undefined
-  } else if (utils.isNebulaValue(entity)) {
-    const obj = getNebulaValue(entity)
+    return undefined;
+  } else if (isNebulaValue(entity)) {
+    const obj = getNebulaValue(entity);
     if (_.isDate(entity)) {
-      return entity
+      return entity;
     } else if (_.isArray(obj) || _.isPlainObject || _.isObject(obj)) {
-      return convert(obj)
+      return convert(obj);
     }
-    return obj
+    return obj;
   } else if (_.isArray(entity)) {
-    const out = []
-    _.forEach(entity, o => {
-      out.push(convert(o))
-    })
-    return out
+    const out = [];
+    _.forEach(entity, (o) => {
+      out.push(convert(o));
+    });
+    return out;
   } else if (_.isPlainObject(entity)) {
-    const out = {}
-    const keys = _.keys(entity)
-    _.forEach(keys, key => {
-      const o = entity[key]
-      out[key] = convert(o)
-    })
-    return out
+    const out = {};
+    const keys = _.keys(entity);
+    _.forEach(keys, (key) => {
+      const o = entity[key];
+      out[key] = convert(o);
+    });
+    return out;
   } else if (entity instanceof Int64) {
     if (isFinite(entity.valueOf())) {
-      return +entity.toString()
+      return +entity.toString();
     } else {
       if (entity.buffer) {
-        return native.bytesToLongLongString(entity.buffer as any)
+        return native.bytesToLongLongString(entity.buffer as any);
       }
-      return entity.toOctetString()
+      return entity.toOctetString();
     }
   } else if (_.isDate(entity)) {
-    return entity
+    return entity;
   } else if (_.isObject(entity)) {
-    return convert(_.toPlainObject(entity))
+    return convert(_.toPlainObject(entity));
   } else {
-    return entity
+    return entity;
   }
-}
+};
 
 const traverse = (obj: any): any => {
-  const start = Date.now()
-  const result = convert(obj)
-  const columns = result?.data?.column_names
-  const rows = result?.data?.rows
+  const start = Date.now();
+  const result = convert(obj);
+  const columns = result?.data?.column_names;
+  const rows = result?.data?.rows;
   if (columns && rows) {
-    const entity = {}
-    _.forEach(columns, c => {
-      entity[c] = []
-    })
+    const entity = {};
+    _.forEach(columns, (c) => {
+      entity[c] = [];
+    });
 
-    _.forEach(rows, row => {
+    _.forEach(rows, (row) => {
       _.forEach(columns, (c, i) => {
-        entity[c].push(row.values[i])
-      })
-    })
+        entity[c].push(row.values[i]);
+      });
+    });
 
-    result.data = entity
+    result.data = entity;
   }
 
-  const end = Date.now()
-  result.metrics = result.metrics ?? { execute: 0, traverse: 0 }
-  result.metrics.traverse = end - start
+  const end = Date.now();
+  result.metrics = result.metrics ?? { execute: 0, traverse: 0 };
+  result.metrics.traverse = end - start;
 
-  return result
-}
+  return result;
+};
 
-export default traverse
+export default traverse;

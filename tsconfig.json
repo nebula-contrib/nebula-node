@@ -1,18 +1,18 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "build",
-    "module": "esnext",
-    "target": "es6",
-    "lib": [
-      "es6"
-    ],
+    "module": "ESNext",
+    "target": "ESNext",
     "sourceMap": true,
     "allowJs": true,
     "jsx": "preserve",
+    "declaration": true,
+    "declarationDir": "types",
+    "emitDeclarationOnly": true,
     "skipLibCheck": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "noImplicitAny": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
@@ -21,6 +21,9 @@
     "experimentalDecorators": true,
     "newLine": "lf"
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules"
   ]

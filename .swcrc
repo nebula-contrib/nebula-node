@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "loose": false,
+    "externalHelpers": true,
+    "keepClassNames": false
+  },
+  "env": {
+    "targets": {
+      "node": "17"
+    },
+    "mode": "usage",
+    "coreJs": "3.33.1",
+    "include": ["esnext.symbol.dispose", "esnext.symbol.async-dispose"]
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "minify": false
+}

@@ -3,18 +3,19 @@
  */
 
 import _ from 'lodash'
-import thrift from '../thrift'
+import thrift from 'thrift'
 import { EventEmitter } from 'events'
-import GraphService from './interface/GraphService'
+import Int64 from 'node-int64'
 import { ConnectionOption, ConnectionInfo, Task } from './types'
-import parser from './parser'
+import { traverse } from './parser'
 import NebulaError from './NebulaError'
+import * as GraphService from './services/GraphService'
 
 export default class Connection extends EventEmitter {
   private connectionOption: ConnectionOption;
   private connection: thrift.Connection;
-  private client: GraphService.Client;
-  private sessionId: Buffer;
+  private client: InstanceType<typeof GraphService.Client>;
+  private sessionId: Int64;
   public connectionId: string;
   // 是否完成执行命令前所有操作
   public isReady = false;
@@ -78,7 +79,7 @@ export default class Connection extends EventEmitter {
         if (response.error_code !== 0) {
           throw new NebulaError(response.error_code, response.error_msg)
         }
-        this.sessionId = response.session_id
+        this.sessionId = new Int64(response.session_id.buffer)
 
         this.emit('authorized', { sender: this })
 
@@ -143,7 +144,7 @@ export default class Connection extends EventEmitter {
         const timer = setTimeout(() => { resolve(false) }, timeout)
         this
           .client
-          .execute(this.sessionId, 'YIELD 1')
+          .execute(this.sessionId, Buffer.from('YIELD 1', 'utf-8'))
           .then(response => {
             clearTimeout(timer)
             resolve(response.error_code === 0)
@@ -187,7 +188,7 @@ export default class Connection extends EventEmitter {
         response.metrics.execute = elapsed
 
         if (!task.returnOriginalData) {
-          return parser.traverse(response)
+          return traverse(response)
         }
         return Promise.resolve(response)
       })

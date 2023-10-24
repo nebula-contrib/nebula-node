@@ -6,7 +6,7 @@
 
 import _traverse from './traverse'
 
-const traverse = (obj: any): Promise<any> => {
+export const traverse = (obj: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     setImmediate(() => {
       try {
@@ -18,6 +18,4 @@ const traverse = (obj: any): Promise<any> => {
   })
 }
 
-export default {
-  traverse
-}
+
