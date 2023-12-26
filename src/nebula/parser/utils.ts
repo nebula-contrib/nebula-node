@@ -18,9 +18,8 @@ const NebulaValueTypeNames = [
   'gVal'
 ]
 
-
 const getNebulaValueTypeName = (obj: NebulaValue): string => {
-  return _.chain(obj).keys().filter(k => obj[k] !== null).first().value()
+  return _.findKey(obj, o => o !== null)
 }
 
 const isNebulaValue = (obj: any): boolean => {
